@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - ELE Center</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo"><img src="elePic/logo.jpg" ></div>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="login_signup.html">Log In / Sign Up</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" class="active">Contact Us</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="contact-form">
+    <h1 class="heading">Contact Us</h1>
+
+    <div class="contactForm">
+        <form action="#">
+            <h1 class="sub-heading">Send your concern here</h1>
+            <input type="text" class="input" placeholder="Your name">
+            <input type="text" class="input" placeholder="Your email">
+            <input type="text" class="input" placeholder="Cell no.">
+            <textarea class="input" cols="30" rows="5" placeholder="Your message..."></textarea>
+            <input type="submit" class="input submit" value="Send Message">
+        </form>
+
+        <div class="map-container">
+            <div class="mapBg"></div>
+            <div class="map">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d125603.55835934912!2d123.89297571175489!3d10.332985385039084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sph!4v1733363447017!5m2!1sen!2sph"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-methods">
+        <div class="method">
+            <i class="fas fa-map-marker-alt contactIcon"></i>
+            <div>
+                <h1 class="sub-heading">Location</h1>
+                <p class="para">Lapu-Lapu City</p>
+            </div>
+        </div>
+        <div class="method">
+            <i class="fas fa-envelope contactIcon"></i>
+            <div>
+                <h1 class="sub-heading">Email</h1>
+                <p class="para">(gmail)</p>
+            </div>
+        </div>
+        <div class="method">
+            <i class="fas fa-phone contactIcon"></i>
+            <div>
+                <h1 class="sub-heading">Phone</h1>
+                <p class="para">number</p>
+            </div>
+        </div>
+        <div class="social-linkss">
+            <a href="https://www.facebook.com/EleTechnicalTrainingCenter"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>        
+</section>
+
+<script>
+    
+    const navLinks = document.querySelectorAll("nav ul li a");
+
+   
+    navLinks.forEach(link => {
+        link.addEventListener("click", function (event) {
+            event.preventDefault(); 
+
+           
+            navLinks.forEach(nav => nav.classList.remove("active"));
+            
+            
+            this.classList.add("active");
+
+            
+            const target = this.getAttribute("href");
+            if (target && target !== "#") {
+                window.location.href = target;
+            }
+        });
+    });
+</script>
+</body>
+</html>
