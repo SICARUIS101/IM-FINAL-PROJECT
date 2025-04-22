@@ -1,41 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Panel - ELE Center</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - ELE Center</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="logo"><img src="elePic/logo.jpg" ></div>
-      <ul class="nav-links">
-        <li><a href="home.html">Home</a></li>
-        <li><a href="login_signup.html">Log In / Sign Up</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
-        <li><a href="admin.html" class="active">Admin</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <section class="section admin-section">
-    <h2>Admin Panel</h2>
-    <div class="form-container">
-      <div class="form-box">
-        <h3>Admin Login</h3>
-        <form action="admin_login.php" method="POST">
-          <input type="text" name="username" placeholder="Username" required />
-          <input type="password" name="password" placeholder="Password" required />
-          <button type="submit" class="btn">Log In</button>
-        </form>
-      </div>
-    </div>
-  </section>
+    <!-- Header with Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo"><img src="ELE-LOGO.png"></div>
+            <ul class="nav-links">
+                <li><a href="home.html" class="active">Home</a></li>
+                <li><a href="login_signup.html">Log In / Sign Up</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <footer>
-    <p>&copy; 2025 ELE Technical Training and Assessment Center. All rights reserved.</p>
-  </footer>
+
+    <!-- Admin Panel Section -->
+    <section class="section admin-section">
+        <h2>ADMIN PANEL </h2>
+        <div class="form-container">
+            <div class="form-box">
+                <h3>ELE CENTER</h3>
+                <form action="admin_login.php" method="POST">
+                    <input type="text" name="username" placeholder="Username" required />
+                    <input type="password" name="password" placeholder="Password" required />
+                    <button type="submit" class="btn">Log In</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 ELE Technical Training and Assessment Center. All rights reserved.</p>
+    </footer>
+
 </body>
+
 </html>
