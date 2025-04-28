@@ -16,10 +16,10 @@
       <div class="logo"><img src="ELE-LOGO.png"></div>
       <ul class="nav-links">
         <li><a href="home.html">Home</a></li>
-        <li><a href="login_signup.html" class="active">Log In / Sign Up</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="contact.html">Contact Us</a></li>
         <li><a href="admin.html">Admin</a></li>
+        <li><a href="login_signup.html" class="active">Sign Up</a></li>
       </ul>
     </nav>
   </header>
@@ -53,32 +53,8 @@
           <button type="submit" class="btn">Sign Up</button>
 
           <!-- Added icon here -->
-          <a href="#" class="switch-form" onclick="showLogin()">
+          <a href="admin.html" class="switch-form" onclick="showLogin()">
             <i class="fas fa-sign-in-alt"></i> Already have an account? Log In here
-          </a>
-        </form>
-      </div>
-
-      <!-- Log In Form -->
-      <div class="form-box" id="login-form" style="display: none;">
-        <h2>Log In</h2>
-        <form action="login.php" method="POST">
-          <div class="input-container">
-            <input type="email" name="email" placeholder="Email" required />
-            <i class="fas fa-envelope"></i>
-          </div>
-
-          <div class="input-container">
-            <input type="password" name="password" placeholder="Password" required />
-            <i class="fas fa-lock"></i>
-          </div>
-
-          <a href="#" class="forgot">Forgot password?</a>
-          <button type="submit" class="btn">Log In</button>
-
-          <!-- Added icon here -->
-          <a href="#" class="switch-form" onclick="showSignUp()">
-            <i class="fas fa-user-plus"></i> Don't have an account? Sign Up here
           </a>
         </form>
       </div>
