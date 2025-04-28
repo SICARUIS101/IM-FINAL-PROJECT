@@ -15,23 +15,23 @@
             <div class="logo"><img src="ELE-LOGO.png"></div>
             <ul class="nav-links">
                 <li><a href="home.html">Home</a></li>
-                <li><a href="login_signup.html">Log In / Sign Up</a></li>
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
                 <li><a href="admin.html" class="active">Admin</a></li>
+                <li><a href="login_signup.html">Sign Up</a></li>
             </ul>
         </nav>
     </header>
 
     <section class="section admin-section">
-        <h2 style="color: black;">Admin Panel</h2>
+        <h2 style="color: black;">Registrar Panel</h2>
         <div class="form-box">
             <h3 style="color: black;">
-                </h3style>Admin Login</h3>
+                </h1style>Login</h1>
             <form action="admin_login.php" method="POST">
 
                 <div class="input-container">
-                    <input type="text" name="first_name" placeholder="First Name" required />
+                    <input type="text" name="first_name" placeholder="Email Address" required />
                     <i class="fas fa-user"></i>
                 </div>
 
@@ -39,7 +39,7 @@
                     <input type="password" name="password" placeholder="Password" required />
                     <i class="fas fa-lock"></i>
                 </div>
-
+                <a href="#" class="forgot">Forgot password?</a>
                 <button type="submit" class="btn">Log In</button>
 
                 <a href="login_signup.html#signup-form" class="switch-form">
