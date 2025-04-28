@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Panel - ELE Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -23,20 +24,34 @@
     </header>
 
     <section class="section admin-section">
-        <h2>Admin Panel</h2>
+        <h2 style="color: black;">Admin Panel</h2>
         <div class="form-box">
-            <h3>Admin Login</h3>
+            <h3 style="color: black;">
+                </h3style>Admin Login</h3>
             <form action="admin_login.php" method="POST">
-                <input type="text" name="username" placeholder="Username" required />
-                <input type="password" name="password" placeholder="Password" required />
+
+                <div class="input-container">
+                    <input type="text" name="first_name" placeholder="First Name" required />
+                    <i class="fas fa-user"></i>
+                </div>
+
+                <div class="input-container">
+                    <input type="password" name="password" placeholder="Password" required />
+                    <i class="fas fa-lock"></i>
+                </div>
+
                 <button type="submit" class="btn">Log In</button>
-                <!-- Scaled down image -->
+
+                <a href="login_signup.html#signup-form" class="switch-form">
+                    <i class="fas fa-user-plus"></i> Don't have an account? Sign Up here
+                </a>
+                
                 <img src="ELE-LOGO.png" alt="Admin Illustration"
                     style="margin-top: 1rem; width: 150px; height: auto; display: block; margin-left: auto; margin-right: auto;" />
             </form>
-            </div>
-            </div>
+        </div>
     </section>
+
 
     <footer>
         <p>&copy; 2025 ELE Technical Training and Assessment Center. All rights reserved.</p>
