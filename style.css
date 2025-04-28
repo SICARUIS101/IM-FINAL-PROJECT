@@ -178,6 +178,25 @@
     to { opacity: 1; }
   }
   
+  .input-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-container input {
+  width: 100%;
+  padding-right: 2.5rem; /* Make space for the icon */
+}
+
+.input-container i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #757575;
+  pointer-events: none; /* So it won't block clicking the input */
+}
+
   
   /* Form Layout for Login/Signup */
   .form-container {
@@ -230,6 +249,83 @@
     color: var(--primary);
     text-align: right;
   }
+  .input-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .input-container input {
+    width: 100%;
+    padding-right: 2.5rem; 
+  }
+  
+  .input-container i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #757575;
+    pointer-events: none; 
+  }
+  .input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .input-container input {
+    width: 100%;
+    padding-right: 2.5rem; 
+    padding-left: 0.8rem; 
+    height: 2.5rem; 
+  }
+  
+  .input-container i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #757575;
+    pointer-events: none;
+  }
+  .input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .input-container input {
+    width: 100%;
+    padding-right: 2.5rem; 
+    padding-left: 0.8rem;
+    height: 2.5rem;
+  }
+  
+  .input-container i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #757575;
+    pointer-events: none;
+  }
+
+  .remember-me {
+    text-align: right;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+  
+  .remember-me label {
+    cursor: pointer;
+  }
+  
+  .remember-me input[type="checkbox"] {
+    margin-right: 5px;
+  }
+
+
+      
   
   /* Contact Us */
   
