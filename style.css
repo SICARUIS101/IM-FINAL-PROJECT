@@ -35,49 +35,119 @@
     justify-content: space-between;
     align-items: center;
     background-color: var(--light);
-    padding: 5px 2rem;
+    padding: 0.5rem 2rem;
     color: var(--primary);
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logo img{
-    margin-left: 50px;
-    width:110px;
+    flex-wrap: wrap; /* For responsive collapsing */
+}
+
+/* Logo styling */
+.logo img {
+    margin-left: 1rem;
+    width: 110px;
     animation: slideInLeft 1s ease-out;
-  }
-  
-  .nav-links {
+}
+
+/* Navigation Links */
+.nav-links {
     list-style: none;
     display: flex;
-    gap: 4rem;
-  }
-  
-  .nav-links a {
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+/* Responsive collapse behavior */
+.navbar-toggler {
+    display: none; /* Hidden by default */
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.navbar-toggler-icon {
+    width: 30px;
+    height: 2px;
+    background-color: var(--primary);
+    display: block;
+    position: relative;
+}
+
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    content: '';
+    width: 30px;
+    height: 2px;
+    background-color: var(--primary);
+    position: absolute;
+    left: 0;
+}
+
+.navbar-toggler-icon::before {
+    top: -8px;
+}
+
+.navbar-toggler-icon::after {
+    top: 8px;
+}
+
+/* Link styling */
+.nav-links a {
     color: var(--primary);
     text-decoration: none;
-    
     transition: color 0.3s ease;
-    font-size: 24px;
-  }
-  
-  .nav-links a:hover {
-    text-decoration:solid;
+    font-size: 20px;
+}
+
+.nav-links a:hover {
+    text-decoration: none;
     color: #043a1c;
-  }
-  
-  .nav-links a.active {
-    background-color: var(--primary); 
+}
+
+.nav-links a.active {
+    background-color: var(--primary);
     color: white;
     padding: 8px 16px;
     border-radius: 20px;
     transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  
-  .section {
+}
+
+/* Mobile behavior */
+@media (max-width: 991px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    .navbar-toggler {
+        display: block;
+        margin-left: auto;
+    }
+
+    .nav-links {
+        width: 100%;
+        flex-direction: column;
+        display: none; /* hidden initially */
+        margin-top: 1rem;
+    }
+
+    .nav-links.show {
+        display: flex; /* show when toggled */
+    }
+
+    .nav-links a {
+        padding: 0.5rem 1rem;
+        width: 100%;
+    }
+}
+
+/* Section and other parts (your original ones) */
+.section {
     padding: 3rem 2rem;
     text-align: center;
     animation: fadeIn 1.5s ease-in;
@@ -85,14 +155,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  
-  .home-section {
-    
+}
+
+.home-section {
     color: var(--primary);
     display: flex;
-    flex-direction: row; 
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding-top: 1rem;
@@ -100,102 +168,92 @@
     width: 100%;
     font-size: 40px;
     padding-left: 250px;
-  }
-  
-  
-  .text-container {
-    text-align: left; 
+}
+
+.text-container {
+    text-align: left;
     max-width: 100%;
-  }
-  
-  .home-buttons {
+}
+
+.home-buttons {
     display: flex;
     gap: 1.5rem;
     padding: 10px 10px;
-    justify-content: flex-start; 
-    margin-top: 0.5rem; 
-  }
-  
-  
-  .home-buttons .btn {
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+}
+
+.home-buttons .btn,
+.home-buttons .signb {
     margin: 5px;
     font-size: 28px;
     border-radius: 30px;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    line-height: 45px;
+}
+
+.home-buttons .btn {
     background-color: var(--primary);
     color: var(--light);
-    border: none;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 200px;
-    height: 50px;
-    text-align: center; 
-    line-height: 45px; 
-  }
-  
-  .home-buttons .signb {
-    margin: 5px;
-    font-size: 28px;
-    border-radius: 30px;
+}
+
+.home-buttons .signb {
     background-color: var(--light);
     color: var(--primary);
-    border: none;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 200px;
-    height: 50px;
-    text-align: center; 
-    line-height: 45px; 
-  }
-  
-  
-  .home-buttons .btn:hover {
+}
+
+.home-buttons .btn:hover {
     background-color: #ffffff;
-  }
-  
-  .home-buttons .signb:hover {
+}
+
+.home-buttons .signb:hover {
     background-color: #095c2e;
-  }
-  
-  .image-container {
-    max-width: 980px;         
-    margin: 0 auto;            
+    color: white;
+}
+
+.image-container {
+    max-width: 980px;
+    margin: 0 auto;
     display: flex;
-    justify-content: center;   
-  }
-  
-  .center-image {
-    width: 100%;             
-    max-width: 980px;         
+    justify-content: center;
+}
+
+.center-image {
+    width: 100%;
+    max-width: 980px;
     height: auto;
-  }
-  
-  
-  
-  @keyframes fadeIn {
+}
+
+@keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
-  }
-  
-  .input-container {
-  position: relative;
-  width: 100%;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
 }
 
 .input-container input {
-  width: 100%;
-  padding-right: 2.5rem; /* Make space for the icon */
+    width: 100%;
+    padding-right: 2.5rem;
 }
 
 .input-container i {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #757575;
-  pointer-events: none; /* So it won't block clicking the input */
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #757575;
+    pointer-events: none;
 }
+
 
   
   /* Form Layout for Login/Signup */
