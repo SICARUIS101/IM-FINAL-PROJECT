@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Responsive Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      overflow-x: hidden;
+    }
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #343a40;
+      color: white;
+      transition: transform 0.3s ease;
+    }
+    .sidebar.collapsed {
+      transform: translateX(-100%);
+    }
+    .sidebar .nav-link {
+      color: white;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .sidebar .nav-link:hover {
+      background-color: #495057;
+    }
+    .collapse-inner {
+      padding-left: 20px;
+    }
+    .main {
+      flex-grow: 1;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        height: 100%;
+        z-index: 1040;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar (toggle sidebar) -->
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <button class="btn btn-outline-light" id="toggleSidebar">
+        <i class="bi bi-list"></i>
+      </button>
+      <span class="navbar-brand mb-0 h1">ELE TECH</span>
+    </div>
+  </nav>
+
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar p-3" id="sidebar">
+      <h5 class="text-white mb-4">Menu</h5>
+      <a href="#" class="nav-link"><i class="bi bi-house-door"></i> Home</a>
+
+      <!-- Student Menu -->
+      <a class="nav-link" data-bs-toggle="collapse" href="#studentMenu">
+        <i class="bi bi-person"></i> Student
+      </a>
+      <div class="collapse collapse-inner" id="studentMenu">
+        <a href="#" class="nav-link">Student List</a>
+        <a href="#" class="nav-link">Add Student</a>
+      </div>
+
+     
+
+     <!-- Teacher Menu -->
+      <a class="nav-link" data-bs-toggle="collapse" href="#teacherMenu">
+        <i class="bi bi-person-badge"></i> Teacher
+      </a>
+      <div class="collapse collapse-inner" id="teacherMenu">
+        <a href="teacher_list.php" class="nav-link">Teacher List</a>
+        <a href="add_teacher.php" class="nav-link">Add Teacher</a>
+      </div>
+  
+
+      <!-- Attendance Menu -->
+      <a class="nav-link" data-bs-toggle="collapse" href="#attendanceMenu">
+        <i class="bi bi-clipboard-check"></i> Take Attendance
+      </a>
+      <div class="collapse collapse-inner" id="attendanceMenu">
+        <a href="#" class="nav-link">Teachers</a>
+        <a href="#" class="nav-link">Students</a>
+      </div>
+
+      <!-- Grades Menu -->
+      <a class="nav-link" data-bs-toggle="collapse" href="#gradesMenu">
+        <i class="bi bi-journal-check"></i> Grades
+      </a>
+      <div class="collapse collapse-inner" id="gradesMenu">
+        <a href="#" class="nav-link">Grades</a>
+        <a href="#" class="nav-link">Assessment</a>
+      </div>
+
+      <!-- Class Menu -->
+      <a class="nav-link" data-bs-toggle="collapse" href="#classMenu">
+        <i class="bi bi-building"></i> Class
+      </a>
+      <div class="collapse collapse-inner" id="classMenu">
+        <a href="#" class="nav-link">Add Class</a>
+        <a href="#" class="nav-link">Class List</a>
+      </div>
+
+      <!-- Other links -->
+      <a href="#" class="nav-link"><i class="bi bi-chat-dots"></i> Message Center</a>
+      <a href="#" class="nav-link"><i class="bi bi-person-circle"></i> Profile</a>
+      <a href="#" class="nav-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main" id="mainContent">
+      <h2>WELCOME</h2>
+      <p>This is your main workspace. Use the sidebar to navigate.</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+    });
+  </script>
+</body>
+</html>
