@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ELE TECH - TESDA Student Tracking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- Top Navigation Bar -->
+    <nav class="sb-topnav navbar navbar-expand navbar-light bg-light">
+        <!-- Navbar Brand -->
+        <a class="navbar-brand" href="#">ELE TECH</a>
+
+        <!-- Sidebar Toggle Button -->
+        <button class="btn btn-link menu-toggle" id="sidebarToggle">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <!-- Search Form -->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Search students..." aria-label="Search"
+                    aria-describedby="btnNavbarSearch">
+                <button class="btn btn-outline-secondary" id="btnNavbarSearch" type="button"><i
+                        class="bi bi-search"></i></button>
+            </div>
+        </form>
+
+        <!-- Navbar -->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle user-dropdown" id="navbarDropdown" href="#" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/api/placeholder/32/32" alt="Profile" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Layout with Sidebar -->
+    <div id="layoutSidenav">
+        <!-- Sidebar Navigation -->
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav" id="sideNav">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link active" href="#">
+                            <div class="sb-nav-link-icon"><i class="bi bi-speedometer2"></i></div>
+                            <span>Dashboard</span>
+                        </a>
+
+                        <div class="sb-sidenav-menu-heading">Student Management</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseStudents" aria-expanded="false" aria-controls="collapseStudents">
+                            <div class="sb-nav-link-icon"><i class="bi bi-people"></i></div>
+                            <span>Student Tracking</span>
+                            <div class="ms-auto"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseStudents">
+                            <nav class="collapse-inner">
+                                <a class="collapse-item" href="#"><i
+                                        class="bi bi-calendar-check me-2"></i>Attendance</a>
+                                <a class="collapse-item" href="#"><i
+                                        class="bi bi-file-earmark-text me-2"></i>Assessments</a>
+                                <a class="collapse-item" href="#"><i class="bi bi-award me-2"></i>Certification</a>
+                                <a class="collapse-item" href="#"><i class="bi bi-mortarboard me-2"></i>Training</a>
+                                <a class="collapse-item" href="#"><i class="bi bi-graph-up me-2"></i>Grades</a>
+                            </nav>
+                        </div>
+
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon"><i class="bi bi-person-badge"></i></div>
+                            <span>Teachers</span>
+                        </a>
+
+                        <div class="sb-sidenav-menu-heading">Administration</div>
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon"><i class="bi bi-gear"></i></div>
+                            <span>Settings</span>
+                        </a>
+
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon"><i class="bi bi-question-circle"></i></div>
+                            <span>Help Center</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Logged in as:</div>
+                    <span>Admin User</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content Area -->
+        <div id="layoutSidenav_content">
+            <main class="dashboard-content">
+                <div class="container-fluid">
+                    <h1 class="mt-2">Dashboard</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+
+                    <!-- Statistics Cards -->
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card stats-card-primary mb-4">
+                                <div class="card-body d-flex align-items-center">
+                                    <div>
+                                        <div class="small text-muted">Total Students</div>
+                                        <div class="fs-4 fw-bold">320</div>
+                                    </div>
+                                    <div class="ms-auto stats-icon">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card stats-card-success mb-4">
+                                <div class="card-body d-flex align-items-center">
+                                    <div>
+                                        <div class="small text-muted">Teachers</div>
+                                        <div class="fs-4 fw-bold">26</div>
+                                    </div>
+                                    <div class="ms-auto stats-icon">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card stats-card-warning mb-4">
+                                <div class="card-body d-flex align-items-center">
+                                    <div>
+                                        <div class="small text-muted">Active Courses</div>
+                                        <div class="fs-4 fw-bold">12</div>
+                                    </div>
+                                    <div class="ms-auto stats-icon">
+                                        <i class="bi bi-book"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card stats-card-info mb-4">
+                                <div class="card-body d-flex align-items-center">
+                                    <div>
+                                        <div class="small text-muted">Certifications</div>
+                                        <div class="fs-4 fw-bold">96</div>
+                                    </div>
+                                    <div class="ms-auto stats-icon">
+                                        <i class="bi bi-award"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Cards -->
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6 class="m-0">Recent Activities</h6>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-light" type="button" id="activitiesOptions"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="activitiesOptions">
+                                            <li><a class="dropdown-item" href="#">View All</a></li>
+                                            <li><a class="dropdown-item" href="#">Export Data</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li
+                                            class="list-group-item px-0 d-flex justify-content-between align-items-start">
+                                            <div class="ms-2 me-auto">
+                                                <div class="fw-bold">Certification Issued</div>
+                                                <small class="text-muted">Electronics Servicing NC II - 4
+                                                    students</small>
+                                            </div>
+                                            <span class="badge bg-success rounded-pill">1h ago</span>
+                                        </li>
+                                        <li
+                                            class="list-group-item px-0 d-flex justify-content-between align-items-start">
+                                            <div class="ms-2 me-auto">
+                                                <div class="fw-bold">Assessment Completed</div>
+                                                <small class="text-muted">Electronics Servicing NC II</small>
+                                            </div>
+                                            <span class="badge bg-primary rounded-pill">2h ago</span>
+                                        </li>
+                                        <li
+                                            class="list-group-item px-0 d-flex justify-content-between align-items-start">
+                                            <div class="ms-2 me-auto">
+                                                <div class="fw-bold">New Student Registration</div>
+                                                <small class="text-muted">5 new students registered</small>
+                                            </div>
+                                            <span class="badge bg-primary rounded-pill">5h ago</span>
+                                        </li>
+                                        <li
+                                            class="list-group-item px-0 d-flex justify-content-between align-items-start">
+                                            <div class="ms-2 me-auto">
+                                                <div class="fw-bold">Training Session Started</div>
+                                                <small class="text-muted">Computer Hardware Servicing</small>
+                                            </div>
+                                            <span class="badge bg-primary rounded-pill">1d ago</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6 class="m-0">Student Certification Status</h6>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-light" type="button" id="certificationOptions"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="certificationOptions">
+                                            <li><a class="dropdown-item" href="#">View Details</a></li>
+                                            <li><a class="dropdown-item" href="#">Export Report</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div>Electronics Servicing NC II</div>
+                                            <div>78%</div>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 78%"
+                                                aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div>Computer Hardware Servicing NC II</div>
+                                            <div>65%</div>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 65%"
+                                                aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div>Electrical Installation NC II</div>
+                                            <div>52%</div>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 52%"
+                                                aria-valuenow="52" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div>Mechatronics Servicing NC II</div>
+                                            <div>41%</div>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 41%"
+                                                aria-valuenow="41" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calendar and Upcoming Events Card -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6 class="m-0">Upcoming Assessments, Certifications & Training</h6>
+                                    <button class="btn btn-sm btn-success">
+                                        <i class="bi bi-plus-lg me-1"></i> Add New
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Course</th>
+                                                    <th>Scheduled Date</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Practical Assessment</td>
+                                                    <td>Electronics Servicing NC II</td>
+                                                    <td>May 15, 2025</td>
+                                                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-primary me-1"><i
+                                                                class="bi bi-pencil"></i></button>
+                                                        <button class="btn btn-sm btn-outline-danger"><i
+                                                                class="bi bi-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Written Exam</td>
+                                                    <td>Computer Hardware Servicing NC II</td>
+                                                    <td>May 18, 2025</td>
+                                                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-primary me-1"><i
+                                                                class="bi bi-pencil"></i></button>
+                                                        <button class="btn btn-sm btn-outline-danger"><i
+                                                                class="bi bi-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Certification Ceremony</td>
+                                                    <td>Electronics Servicing NC II</td>
+                                                    <td>May 22, 2025</td>
+                                                    <td><span class="badge bg-info">Scheduled</span></td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-primary me-1"><i
+                                                                class="bi bi-pencil"></i></button>
+                                                        <button class="btn btn-sm btn-outline-danger"><i
+                                                                class="bi bi-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Training Workshop</td>
+                                                    <td>Electrical Installation NC II</td>
+                                                    <td>May 20, 2025</td>
+                                                    <td><span class="badge bg-primary">Confirmed</span></td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-primary me-1"><i
+                                                                class="bi bi-pencil"></i></button>
+                                                        <button class="btn btn-sm btn-outline-danger"><i
+                                                                class="bi bi-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Certification Exam</td>
+                                                    <td>Mechatronics Servicing NC II</td>
+                                                    <td>May 25, 2025</td>
+                                                    <td><span class="badge bg-success">Ready</span></td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-primary me-1"><i
+                                                                class="bi bi-pencil"></i></button>
+                                                        <button class="btn btn-sm btn-outline-danger"><i
+                                                                class="bi bi-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; ELE TECH 2025</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
