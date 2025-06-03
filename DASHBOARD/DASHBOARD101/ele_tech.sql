@@ -15,7 +15,8 @@ INSERT INTO courses (course_name) VALUES
 ('Dressmaking NC II'),
 ('Electronic Products Assembly Servicing NC II'),
 ('Shielded Metal Arc Welding (SMAW) NC I'),
-('Shielded Metal Arc Welding (SMAW) NC II');
+('Shielded Metal Arc Welding (SMAW) NC II')
+ON CONFLICT (course_name) DO NOTHING;
 
 -- ============================
 -- STUDENTS TABLE
@@ -72,7 +73,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trg_set_course_id ON attendance;
-
 CREATE TRIGGER trg_set_course_id
 BEFORE INSERT ON attendance
 FOR EACH ROW
@@ -178,4 +178,3 @@ ORDER BY c.course_name;
 SELECT course_id, course_name FROM courses ORDER BY course_name;
 
 SELECT * FROM students;
-
