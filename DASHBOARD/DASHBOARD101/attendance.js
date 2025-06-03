@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    let selectedCourse = 'Computer System Servicing NC II'; // Default course
+    let selectedCourseId = 1; // Default course_id (Computer System Servicing NC II)
+    let allStudents = []; // Store full student list for filtering
 
     // Initialize
     loadCourses();
@@ -9,15 +10,15 @@ $(document).ready(function () {
     // Load courses for filter dropdown
     function loadCourses() {
         const courses = [
-            'Computer System Servicing NC II',
-            'Dressmaking NC II',
-            'Electronic Products Assembly Servicing NC II',
-            'Shielded Metal Arc Welding (SMAW) NC I',
-            'Shielded Metal Arc Welding (SMAW) NC II'
+            { id: 1, name: 'Computer System Servicing NC II' },
+            { id: 2, name: 'Dressmaking NC II' },
+            { id: 3, name: 'Electronic Products Assembly Servicing NC II' },
+            { id: 4, name: 'Shielded Metal Arc Welding (SMAW) NC I' },
+            { id: 5, name: 'Shielded Metal Arc Welding (SMAW) NC II' }
         ];
         let options = '';
         courses.forEach(course => {
-            options += `<option value="${course}" ${course === selectedCourse ? 'selected' : ''}>${course}</option>`;
+            options += `<option value="${course.id}" ${course.id === selectedCourseId ? 'selected' : ''}>${course.name}</option>`;
         });
         $('#courseFilter').html(options);
     }
@@ -31,20 +32,9 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response && response.success) {
-                    let options = '<option value="">Select Student</option>';
-                    let rows = '';
-                    response.data.forEach(student => {
-                        options += `<option value="${student.student_id}" data-course="${student.course}">${student.first_name} ${student.last_name}</option>`;
-                        rows += `
-                            <tr>
-                                <td>${student.first_name} ${student.last_name}</td>
-                                <td>${student.course}</td>
-                                <td><button class="btn btn-danger btn-sm delete-student-btn" data-student-id="${student.student_id}"><i class="fas fa-trash"></i></button></td>
-                            </tr>`;
-                    });
-                    $('#studentSelect').html(options);
-                    $('#studentSelectDelete').html(options); // Populate delete student dropdown
-                    $('#studentsTable tbody').html(rows); // Assumes a table with id="studentsTable"
+                    allStudents = response.data; // Store full student list
+                    updateStudentDropdown(allStudents); // Populate dropdown with all students
+                    $('#studentSelectDelete').html(updateStudentDropdown(allStudents, true)); // Populate delete student dropdown
                     console.log('Students loaded:', response.data);
                 } else {
                     alert('Error loading students: ' + (response.message || 'Unknown error'));
@@ -57,12 +47,38 @@ $(document).ready(function () {
         });
     }
 
+    // Helper function to update student dropdown
+    function updateStudentDropdown(students, forDelete = false) {
+        let options = '<option value="">Select a student</option>';
+        students.forEach(student => {
+            options += `<option value="${student.student_id}" data-course-id="${student.course_id}">${student.student_id} - ${student.first_name} ${student.last_name} (${student.course_name})</option>`;
+        });
+        $('#studentSelect').html(options);
+        if (forDelete) {
+            $('#studentSelectDelete').html(options);
+        }
+    }
+
+    // Search Student ID event
+    $('#studentIdSearch').on('input', function () {
+        const searchId = $(this).val().toLowerCase().trim();
+        if (searchId === '') {
+            updateStudentDropdown(allStudents); // Reset to full list if search is empty
+        } else {
+            const filteredStudents = allStudents.filter(student =>
+                student.student_id.toString().toLowerCase().includes(searchId) ||
+                `${student.first_name} ${student.last_name}`.toLowerCase().includes(searchId)
+            );
+            updateStudentDropdown(filteredStudents); // Update dropdown with filtered students
+        }
+    });
+
     // Load attendance records for the selected course
     function loadAttendance() {
         $.ajax({
             url: 'attendance_api.php',
             type: 'POST',
-            data: { action: 'get_attendance', course: selectedCourse },
+            data: { action: 'get_attendance', course_id: selectedCourseId },
             dataType: 'json',
             success: function (response) {
                 if (response && response.success) {
@@ -74,32 +90,74 @@ $(document).ready(function () {
                             rows += `
                                 <tr>
                                     <td>${record.first_name} ${record.last_name}</td>
-                                    <td>${record.course}</td>
+                                    <td>${record.course_name}</td>
                                     <td>${record.attendance_date}</td>
                                     <td>${record.status}</td>
                                     <td>${record.notes || ''}</td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm edit-btn" data-id="${record.attendance_id}" data-student-id="${record.student_id}" data-date="${record.attendance_date}" data-status="${record.status}" data-notes="${record.notes || ''}" data-course="${record.course}"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm delete-btn" data-id="${record.attendance_id}" data-course="${record.course}"><i class="fas fa-trash"></i></button>
+                                        <button class="btn btn-primary btn-sm edit-btn" data-id="${record.attendance_id}" data-student-id="${record.student_id}" data-course-id="${record.course_id}" data-date="${record.attendance_date}" data-status="${record.status}" data-notes="${record.notes || ''}"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-danger btn-sm delete-btn" data-id="${record.attendance_id}" data-course-id="${record.course_id}"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>`;
                         });
                     }
                     $('#attendanceTable tbody').html(rows);
+
+                    const students = [...new Set(response.data.map(record => `${record.student_id}|${record.first_name} ${record.last_name}`))];
+                    const dates = [...new Set(response.data.map(record => record.attendance_date))].sort();
+                    let dayTableRows = '';
+                    let headerRow = '<tr><th>Student Name</th>';
+                    dates.forEach(date => {
+                        headerRow += `<th>${date}</th>`;
+                    });
+                    headerRow += '</tr>';
+                    $('#attendanceByDayTable thead').html(headerRow);
+
+                    students.forEach(student => {
+                        const [studentId, studentName] = student.split('|');
+                        let row = `<tr><td>${studentName}</td>`;
+                        dates.forEach(date => {
+                            const record = response.data.find(r => r.student_id === parseInt(studentId) && r.attendance_date === date);
+                            let statusClass = '';
+                            let statusText = '';
+                            if (record) {
+                                statusText = record.status.charAt(0);
+                                statusClass = record.status === 'Present' ? 'bg-success text-white' :
+                                    record.status === 'Absent' ? 'bg-danger text-white' :
+                                        'bg-warning text-dark';
+                            } else {
+                                statusText = '-';
+                            }
+                            row += `<td class="${statusClass} text-center">${statusText}</td>`;
+                        });
+                        row += '</tr>';
+                        dayTableRows += row;
+                    });
+
+                    if (students.length === 0) {
+                        dayTableRows = '<tr><td colspan="' + (dates.length + 1) + '">No attendance records found.</td></tr>';
+                    }
+                    $('#attendanceByDayTable tbody').html(dayTableRows);
                 } else {
-                    alert('Error loading attendance: ' + (response.message || 'Unknown error'));
+                    alert('Error loading attendance: ' + (response.message || 'No attendance records found'));
+                    $('#attendanceTable tbody').html('<tr><td colspan="6">No attendance records found.</td></tr>');
+                    $('#attendanceByDayTable thead').html('<tr><th>Student Name</th></tr>');
+                    $('#attendanceByDayTable tbody').html('<tr><td>No attendance records found.</td></tr>');
                 }
             },
             error: function (xhr, status, error) {
                 console.error('AJAX Error (loadAttendance):', xhr.status, status, error);
                 alert('Failed to load attendance. Check server status and console for details.');
+                $('#attendanceTable tbody').html('<tr><td colspan="6">Failed to load attendance.</td></tr>');
+                $('#attendanceByDayTable thead').html('<tr><th>Student Name</th></tr>');
+                $('#attendanceByDayTable tbody').html('<tr><td>Failed to load attendance.</td></tr>');
             }
         });
     }
 
     // Course filter change event
     $('#courseFilter').on('change', function () {
-        selectedCourse = $(this).val();
+        selectedCourseId = $(this).val();
         loadAttendance();
     });
 
@@ -107,19 +165,17 @@ $(document).ready(function () {
     $('#saveAttendance').click(function () {
         const attendanceId = $('#attendanceId').val();
         const studentId = $('#studentSelect').val();
-        const course = $('#studentSelect option:selected').data('course');
+        const courseId = $('#studentSelect option:selected').data('course-id');
         const attendanceDate = $('#attendanceDate').val();
         const status = $('#attendanceStatus').val();
         const notes = $('#attendanceNotes').val();
         const action = attendanceId ? 'update_attendance' : 'add_attendance';
 
-        // Validate required fields
-        if (!studentId || !attendanceDate || !status) {
-            alert('Please fill all required fields');
+        if (!studentId || !courseId || !attendanceDate || !status) {
+            alert('Please fill all required fields.');
             return;
         }
 
-        // Proceed with saving attendance
         $.ajax({
             url: 'attendance_api.php',
             type: 'POST',
@@ -127,7 +183,7 @@ $(document).ready(function () {
                 action: action,
                 attendance_id: attendanceId,
                 student_id: studentId,
-                course: course,
+                course_id: courseId,
                 attendance_date: attendanceDate,
                 status: status,
                 notes: notes
@@ -138,20 +194,20 @@ $(document).ready(function () {
                     $('#addAttendanceModal').modal('hide');
                     $('#addAttendanceForm')[0].reset();
                     $('#attendanceId').remove();
+                    $('#studentIdSearch').val('');
                     loadAttendance();
                     alert(response.message);
                 } else {
-                    // Handle error if student does not exist
-                    if (response.message.includes('does not exist') || response.message.includes('Foreign key error')) {
+                    if (response.message.includes('does not exist') || response.message.includes('Foreign key')) {
                         alert('Error: ' + response.message + ' Please refresh the student list.');
-                        loadStudents(); // Refresh the student list
+                        loadStudents();
                     } else {
-                        alert('Error: ' + (response.message || 'Unknown error'));
+                        alert('Error: ' + (response.message || 'Could not save attendance'));
                     }
                 }
             },
             error: function (xhr, status, error) {
-                console.error('AJAX Error (saveAttendance):', xhr.status, status, error);
+                console.error('AJAX Error (saveAttendance):', xhr.status, xhr.statusText, error);
                 alert('Failed to save attendance. Check server status and console for details.');
             }
         });
@@ -161,14 +217,20 @@ $(document).ready(function () {
     $('#saveStudent').click(function () {
         const firstName = $('#firstName').val();
         const lastName = $('#lastName').val();
-        const course = $('#course').val();
+        const birthdate = $('#birthdate').val();
+        const contactNumber = $('#contactNumber').val();
+        const courseId = $('#course').val();
 
-        if (!firstName || !lastName || !course) {
+        if (!firstName || !lastName || !birthdate || !courseId) {
             alert('Please fill all required fields');
             return;
         }
 
-        console.log('Adding student:', { firstName, lastName, course });
+        if (contactNumber && !/^[0-9]{10,12}$/.test(contactNumber)) {
+            alert('Please enter a valid contact number (10-12 digits)');
+            return;
+        }
+
         $.ajax({
             url: 'attendance_api.php',
             type: 'POST',
@@ -176,7 +238,9 @@ $(document).ready(function () {
                 action: 'add_student',
                 first_name: firstName,
                 last_name: lastName,
-                course: course
+                birthdate: birthdate,
+                contact_number: contactNumber,
+                course_id: courseId
             },
             dataType: 'json',
             success: function (response) {
@@ -184,22 +248,23 @@ $(document).ready(function () {
                     $('#addStudentModal').modal('hide');
                     $('#addStudentForm')[0].reset();
                     loadStudents();
-                    alert(response.message);
+                    loadAttendance(); // Refresh attendance to include new students
+                    alert('Successfully added student');
                 } else {
-                    alert('Error: ' + (response.message || 'Unknown error'));
+                    alert('Error: ' + (response.message || 'Could not add student'));
                 }
             },
             error: function (xhr, status, error) {
-                console.error('AJAX Error (saveStudent):', xhr.status, status, error);
+                console.error('AJAX Error (response):', xhr.status, error);
                 console.error('Response:', xhr.responseText);
-                alert('Failed to save student. Check server status and console for details.');
+                alert('Failed to add student. Check server status and console for details.');
             }
         });
     });
 
     // Delete student
     $('#deleteStudentBtn').click(function () {
-        loadStudents(); // Load students to populate the delete dropdown
+        loadStudents();
     });
 
     $('#confirmDeleteStudent').click(function () {
@@ -209,31 +274,29 @@ $(document).ready(function () {
             return;
         }
 
-        const confirmDelete = confirm('Are you sure you want to delete this student?');
+        const confirmDelete = confirm('Are you sure you want to delete this student? This will also delete their attendance records.');
         if (!confirmDelete) return;
-
-        const deleteAttendance = confirm('Do you also want to delete all attendance records for this student?');
 
         $.ajax({
             url: 'attendance_api.php',
             type: 'POST',
             data: {
                 action: 'delete_student',
-                student_id: studentId,
-                delete_attendance: deleteAttendance
+                student_id: studentId
             },
             dataType: 'json',
             success: function (response) {
                 if (response && response.success) {
+                    $('#deleteStudentModal').modal('hide'); // Close the modal
                     loadStudents();
-                    loadAttendance(); // Refresh attendance in case student had records
+                    loadAttendance(); // Refresh attendance table
                     alert(response.message);
                 } else {
-                    alert('Error: ' + (response.message || 'Unknown error'));
+                    alert('Error: ' + (response.message || 'Could not delete student. Please try again.'));
                 }
             },
             error: function (xhr, status, error) {
-                console.error('AJAX Error (deleteStudent):', xhr.status, status, error);
+                console.error('AJAX Error (deleteStudent):', xhr.status, error);
                 console.error('Response:', xhr.responseText);
                 alert('Failed to delete student. Check server status and console for details.');
             }
@@ -242,10 +305,13 @@ $(document).ready(function () {
 
     // View Students
     $('#viewStudentsBtn').click(function () {
-        loadStudentsForView(); // Load students to populate the view modal
+        loadStudentsForView();
+        $('#viewStudentsModal').modal('show');
     });
 
     function loadStudentsForView() {
+        $('#studentsContainer').html('<p>Loading students...</p>');
+
         $.ajax({
             url: 'attendance_api.php',
             type: 'POST',
@@ -253,53 +319,61 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response && response.success) {
-                    // Group students by course
-                    const groupedStudents = {};
-                    response.data.forEach(student => {
-                        if (!groupedStudents[student.course]) {
-                            groupedStudents[student.course] = [];
-                        }
-                        groupedStudents[student.course].push(student);
-                    });
-
-                    // Create HTML for each course
-                    let html = '';
-                    for (const course in groupedStudents) {
-                        html += `
-                            <div class="course-section mb-4">
-                                <h5 class="text-primary">${course}</h5>
-                                <div class="table-responsive">
-                                    <table class="table table-hover table-bordered">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Student ID</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>`;
-                        groupedStudents[course].forEach(student => {
-                            html += `
-                                <tr>
-                                    <td>${student.student_id}</td>
-                                    <td>${student.first_name}</td>
-                                    <td>${student.last_name}</td>
-                                </tr>`;
+                    if (response.data && response.data.length > 0) {
+                        const groupedStudents = {};
+                        response.data.forEach(student => {
+                            if (!groupedStudents[student.course_id]) {
+                                groupedStudents[student.course_id] = [];
+                            }
+                            groupedStudents[student.course_id].push(student);
                         });
-                        html += `
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>`;
+
+                        let html = '';
+                        for (const courseId in groupedStudents) {
+                            const courseName = groupedStudents[courseId][0].course_name;
+                            html += `
+                                <div class="course-section mb-4">
+                                    <h5 class="text-primary">${courseName}</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-bordered">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Student ID</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Birthdate</th>
+                                                    <th>Contact Number</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>`;
+                            groupedStudents[courseId].forEach(student => {
+                                html += `
+                                    <tr>
+                                        <td>${student.student_id}</td>
+                                        <td>${student.first_name}</td>
+                                        <td>${student.last_name}</td>
+                                        <td>${student.birthdate}</td>
+                                        <td>${student.contact_number || '-'}</td>
+                                    </tr>`;
+                            });
+                            html += `
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>`;
+                        }
+                        $('#studentsContainer').html(html);
+                    } else {
+                        $('#studentsContainer').html('<p>No students found.</p>');
                     }
-                    $('#studentsContainer').html(html); // Populate the students container
                 } else {
-                    alert('Error loading students: ' + (response.message || 'Unknown error'));
+                    $('#studentsContainer').html('<p>Error loading students: ' + (response.message || 'Unknown error') + '</p>');
                 }
             },
             error: function (xhr, status, error) {
-                console.error('AJAX Error (loadStudentsForView):', xhr.status, status, error);
-                alert('Failed to load students. Check server status and console for details.');
+                console.error('AJAX Error (loadStudentsForView):', xhr.status, error);
+                console.error('Response:', xhr.responseText);
+                $('#studentsContainer').html('<p>Failed to load students. Check server status and console for details.</p>');
             }
         });
     }
@@ -308,11 +382,13 @@ $(document).ready(function () {
     $(document).on('click', '.edit-btn', function () {
         const id = $(this).data('id');
         const studentId = $(this).data('student-id');
+        const courseId = $(this).data('course-id');
         const date = $(this).data('date');
         const status = $(this).data('status');
         const notes = $(this).data('notes');
-        const course = $(this).data('course');
 
+        $('#studentIdSearch').val('');
+        updateStudentDropdown(allStudents);
         $('#studentSelect').val(studentId);
         $('#attendanceDate').val(date);
         $('#attendanceStatus').val(status);
@@ -326,22 +402,22 @@ $(document).ready(function () {
         if (!confirm('Are you sure you want to delete this record?')) return;
 
         const id = $(this).data('id');
-        const course = $(this).data('course');
+        const courseId = $(this).data('course-id');
         $.ajax({
             url: 'attendance_api.php',
             type: 'POST',
-            data: { action: 'delete_attendance', attendance_id: id, course: course },
+            data: { action: 'delete_attendance', attendance_id: id, course_id: courseId },
             dataType: 'json',
             success: function (response) {
                 if (response && response.success) {
                     loadAttendance();
                     alert(response.message);
                 } else {
-                    alert('Error: ' + (response.message || 'Unknown error'));
+                    alert('Error: ' + (response.message || 'Could not delete attendance record'));
                 }
             },
             error: function (xhr, status, error) {
-                console.error('AJAX Error (deleteAttendance):', xhr.status, status, error);
+                console.error('AJAX Error (deleteAttendance):', xhr.status, error);
                 alert('Failed to delete attendance. Check server status and console for details.');
             }
         });
@@ -351,5 +427,7 @@ $(document).ready(function () {
     $('#addAttendanceModal').on('hidden.bs.modal', function () {
         $('#addAttendanceForm')[0].reset();
         $('#attendanceId').remove();
+        $('#studentIdSearch').val('');
+        updateStudentDropdown(allStudents);
     });
 });
