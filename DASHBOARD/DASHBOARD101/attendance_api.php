@@ -7,15 +7,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Map courses to their respective table names
-$course_tables = [
-    'Computer System Servicing NC II' => 'computer_system_servicing_nc_ii_attendance',
-    'Dressmaking NC II' => 'dressmaking_nc_ii_attendance',
-    'Electronic Products Assembly Servicing NC II' => 'electronic_products_assembly_servicing_nc_ii_attendance',
-    'Shielded Metal Arc Welding (SMAW) NC I' => 'shielded_metal_arc_welding_nc_i_attendance',
-    'Shielded Metal Arc Welding (SMAW) NC II' => 'shielded_metal_arc_welding_nc_ii_attendance'
-];
-
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 try {
@@ -23,119 +14,91 @@ try {
         throw new Exception('Database connection is not established');
     }
 
-    // Test database connection before proceeding
+    // Test database connection
     $pdo->query("SELECT 1");
 
     switch ($action) {
         case 'get_students':
-            $stmt = $pdo->query("SELECT student_id, first_name, last_name, course FROM students ORDER BY last_name");
+            $stmt = $pdo->query("SELECT s.student_id, s.first_name, s.last_name, s.gender, s.birthdate, s.contact_number, s.course_id, c.course_name FROM students s JOIN courses c ON s.course_id = c.course_id ORDER BY s.last_name");
             $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if (empty($students)) {
-                echo json_encode(['success' => false, 'message' => 'No students found in the database']);
-            } else {
-                echo json_encode(['success' => true, 'data' => $students]);
-            }
+            echo json_encode(['success' => true, 'data' => $students]);
             break;
 
         case 'add_student':
             $first_name = $_POST['first_name'] ?? '';
             $last_name = $_POST['last_name'] ?? '';
-            $course = $_POST['course'] ?? '';
-            if (empty($first_name) || empty($last_name) || empty($course)) {
-                throw new Exception('Missing required fields: first_name, last_name, or course');
+            $birthdate = $_POST['birthdate'] ?? '';
+            $contact_number = $_POST['contact_number'] ?? null;
+            $course_id = $_POST['course_id'] ?? '';
+
+            if (empty($first_name) || empty($last_name) || empty($birthdate) || empty($course_id)) {
+                throw new Exception('Missing required fields: first_name, last_name, birthdate, or course_id');
             }
-            if (!in_array($course, array_keys($course_tables))) {
-                throw new Exception('Invalid course: ' . $course);
-            }
-            $stmt = $pdo->prepare("INSERT INTO students (first_name, last_name, course) VALUES (?, ?, ?)");
-            $stmt->execute([$first_name, $last_name, $course]);
+            $stmt = $pdo->prepare("INSERT INTO students (first_name, last_name, gender, birthdate, contact_number, course_id) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$first_name, $last_name, 'Other', $birthdate, $contact_number, $course_id]);
             echo json_encode(['success' => true, 'message' => 'Student added successfully']);
             break;
 
         case 'delete_student':
             $student_id = $_POST['student_id'] ?? '';
-            $delete_attendance = isset($_POST['delete_attendance']) && $_POST['delete_attendance'] === 'true';
             if (empty($student_id)) {
                 throw new Exception('Missing required field: student_id');
             }
             
-            // Start a transaction to ensure data integrity
-            $pdo->beginTransaction();
-            
-            try {
-                if ($delete_attendance) {
-                    // Delete attendance records for this student from all course tables
-                    foreach ($course_tables as $table) {
-                        $stmt = $pdo->prepare("DELETE FROM $table WHERE student_id = ?");
-                        $stmt->execute([$student_id]);
-                    }
-                }
-                
-                // Attempt to delete the student
-                $stmt = $pdo->prepare("DELETE FROM students WHERE student_id = ?");
-                $stmt->execute([$student_id]);
-                
-                if ($stmt->rowCount() == 0) {
-                    throw new Exception('No student found with student_id: ' . $student_id);
-                }
-                
-                // Commit the transaction
-                $pdo->commit();
-                echo json_encode(['success' => true, 'message' => 'Student deleted successfully']);
-            } catch (PDOException $e) {
-                $pdo->rollBack();
-                if ($e->getCode() == '23503') { // Foreign key violation
-                    echo json_encode(['success' => false, 'message' => 'Cannot delete student because attendance records exist. Set delete_attendance=true to also delete attendance records.']);
-                } else {
-                    throw new Exception('Error deleting student: ' . $e->getMessage());
-                }
+            $stmt = $pdo->prepare("DELETE FROM students WHERE student_id = ?");
+            $stmt->execute([$student_id]);
+            if ($stmt->rowCount() == 0) {
+                throw new Exception('No student found with ID: ' . $student_id);
             }
+            echo json_encode(['success' => true, 'message' => 'Student and their attendance records deleted successfully']);
             break;
 
         case 'get_attendance':
-            $course = $_POST['course'] ?? '';
-            if (!isset($course_tables[$course])) {
-                echo json_encode(['success' => false, 'message' => 'Invalid course: ' . $course]);
-                break;
+            $course_id = $_POST['course_id'] ?? '';
+            if (empty($course_id)) {
+                throw new Exception('Missing required field: course_id');
             }
-            $table = $course_tables[$course];
-            $stmt = $pdo->query("SELECT a.attendance_id, a.student_id, s.first_name, s.last_name, s.course, a.attendance_date, a.status, a.notes 
-                                 FROM $table a 
+            $stmt = $pdo->prepare("SELECT a.attendance_id, a.student_id, s.first_name, s.last_name, c.course_name, a.attendance_date, a.status, a.notes 
+                                 FROM attendance a 
                                  JOIN students s ON a.student_id = s.student_id 
+                                 JOIN courses c ON a.course_id = c.course_id 
+                                 WHERE a.course_id = ? 
                                  ORDER BY a.attendance_date DESC");
+            $stmt->execute([$course_id]);
             $attendance = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode(['success' => true, 'data' => $attendance]);
             break;
 
         case 'add_attendance':
-                       $student_id = $_POST['student_id'] ?? '';
+            $student_id = $_POST['student_id'] ?? '';
+            $course_id = $_POST['course_id'] ?? '';
             $attendance_date = $_POST['attendance_date'] ?? '';
             $status = $_POST['status'] ?? '';
             $notes = $_POST['notes'] ?? '';
-            $course = $_POST['course'] ?? '';
-            if (empty($student_id) || empty($attendance_date) || empty($status) || empty($course)) {
-                echo json_encode(['success' => false, 'message' => 'Missing required fields for adding attendance']);
-                break;
+
+            error_log("add_attendance data: " . print_r($_POST, true));
+
+            if (empty($student_id) || empty($course_id) || empty($attendance_date) || empty($status)) {
+                throw new Exception('Missing required fields: student_id, course_id, attendance_date, or status');
             }
-            if (!isset($course_tables[$course])) {
-                echo json_encode(['success' => false, 'message' => 'Invalid course: ' . $course]);
-                break;
-            }
-            $table = $course_tables[$course];
             
-            // Start a transaction to ensure data consistency
             $pdo->beginTransaction();
             try {
-                // Attempt to insert attendance record
-                $stmt = $pdo->prepare("INSERT INTO $table (student_id, attendance_date, status, notes) VALUES (?, ?, ?, ?)");
-                $stmt->execute([$student_id, $attendance_date, $status, $notes]);
-                
+                $stmt = $pdo->prepare("SELECT COUNT(*) FROM students WHERE student_id = ? AND course_id = ?");
+                $stmt->execute([$student_id, $course_id]);
+                if ($stmt->fetchColumn() == 0) {
+                    throw new Exception('Student ID ' . $student_id . ' does not belong to course ID ' . $course_id);
+                }
+
+                $stmt = $pdo->prepare("INSERT INTO attendance (student_id, course_id, attendance_date, status, notes) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([$student_id, $course_id, $attendance_date, $status, $notes]);
                 $pdo->commit();
                 echo json_encode(['success' => true, 'message' => 'Attendance record added successfully']);
-            } catch (PDOException $e) {
+            } catch (Exception $e) {
                 $pdo->rollBack();
-                if ($e->getCode() == '23503') { // Foreign key violation
-                    echo json_encode(['success' => false, 'message' => 'Foreign key error: The selected student ID or course is invalid. Please check the student and course configuration.']);
+                error_log("Error in add_attendance: " . $e->getMessage());
+                if ($e->getCode() == '23503') {
+                    echo json_encode(['success' => false, 'message' => 'Foreign key error: Invalid student ID or course ID']);
                 } else {
                     echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
                 }
@@ -145,46 +108,34 @@ try {
         case 'update_attendance':
             $attendance_id = $_POST['attendance_id'] ?? '';
             $student_id = $_POST['student_id'] ?? '';
+            $course_id = $_POST['course_id'] ?? '';
             $attendance_date = $_POST['attendance_date'] ?? '';
             $status = $_POST['status'] ?? '';
             $notes = $_POST['notes'] ?? '';
-            $course = $_POST['course'] ?? '';
-            if (empty($attendance_id) || empty($student_id) || empty($attendance_date) || empty($status) || empty($course)) {
-                echo json_encode(['success' => false, 'message' => 'Missing required fields for updating attendance']);
-                break;
-            }
-            if (!isset($course_tables[$course])) {
-                echo json_encode(['success' => false, 'message' => 'Invalid course: ' . $course]);
-                break;
+
+            if (empty($attendance_id) || empty($student_id) || empty($course_id) || empty($attendance_date) || empty($status)) {
+                throw new Exception('Missing required fields: attendance_id, student_id, course_id, attendance_date, or status');
             }
             
-            // Start a transaction to ensure data consistency
             $pdo->beginTransaction();
             try {
-                // Check if the student exists (without FOR UPDATE)
-                $stmt = $pdo->prepare("SELECT COUNT(*) FROM students WHERE student_id = ?");
-                $stmt->execute([$student_id]);
+                $stmt = $pdo->prepare("SELECT COUNT(*) FROM students WHERE student_id = ? AND course_id = ?");
+                $stmt->execute([$student_id, $course_id]);
                 if ($stmt->fetchColumn() == 0) {
-                    $pdo->rollBack();
-                    throw new Exception('Student ID ' . $student_id . ' does not exist');
+                    throw new Exception('Student ID ' . $student_id . ' does not belong to course ID ' . $course_id);
                 }
                 
-                $table = $course_tables[$course];
-                $stmt = $pdo->prepare("UPDATE $table SET student_id = ?, attendance_date = ?, status = ?, notes = ? WHERE attendance_id = ?");
-                $stmt->execute([$student_id, $attendance_date, $status, $notes, $attendance_id]);
-                
+                $stmt = $pdo->prepare("UPDATE attendance SET student_id = ?, course_id = ?, attendance_date = ?, status = ?, notes = ? WHERE attendance_id = ?");
+                $stmt->execute([$student_id, $course_id, $attendance_date, $status, $notes, $attendance_id]);
                 if ($stmt->rowCount() == 0) {
-                    $pdo->rollBack();
-                    throw new Exception('No attendance record found with attendance_id: ' . $attendance_id);
+                    throw new Exception('No attendance record found with ID: ' . $attendance_id);
                 }
-                
                 $pdo->commit();
                 echo json_encode(['success' => true, 'message' => 'Attendance record updated successfully']);
             } catch (Exception $e) {
                 $pdo->rollBack();
-                error_log("Error in update_attendance: " . $e->getMessage());
-                if ($e->getCode() == '23503') { // Foreign key violation
-                    echo json_encode(['success' => false, 'message' => 'Foreign key error: The selected student ID or course is invalid. Please check the student and course configuration.']);
+                if ($e->getCode() == '23503') {
+                    echo json_encode(['success' => false, 'message' => 'Foreign key error: Invalid student ID or course ID']);
                 } else {
                     echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
                 }
@@ -193,23 +144,14 @@ try {
 
         case 'delete_attendance':
             $attendance_id = $_POST['attendance_id'] ?? '';
-            $course = $_POST['course'] ?? '';
-            if (empty($attendance_id) || empty($course)) {
-                echo json_encode(['success' => false, 'message' => 'Missing required fields for deleting attendance']);
-                break;
+            if (empty($attendance_id)) {
+                throw new Exception('Missing required field: attendance_id');
             }
-            if (!isset($course_tables[$course])) {
-                echo json_encode(['success' => false, 'message' => 'Invalid course: ' . $course]);
-                break;
-            }
-            $table = $course_tables[$course];
-            $stmt = $pdo->prepare("DELETE FROM $table WHERE attendance_id = ?");
+            $stmt = $pdo->prepare("DELETE FROM attendance WHERE attendance_id = ?");
             $stmt->execute([$attendance_id]);
-            
             if ($stmt->rowCount() == 0) {
-                throw new Exception('No attendance record found with attendance_id: ' . $attendance_id);
+                throw new Exception('No attendance record found with ID: ' . $attendance_id);
             }
-            
             echo json_encode(['success' => true, 'message' => 'Attendance record deleted successfully']);
             break;
 
