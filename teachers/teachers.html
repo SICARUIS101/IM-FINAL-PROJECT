@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>ELE TECH - Teacher List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" /> </head>
+
+<body class="sb-nav-fixed">
+    
+    <nav class="sb-topnav navbar navbar-expand navbar-light bg-light">
+        <a class="navbar-brand ps-3" href="dashboard.html">ELE TECH</a> <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 menu-toggle" id="sidebarToggle"> <i class="bi bi-list"></i>
+        </button>
+
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            </form>
+
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4"> <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://via.placeholder.com/32" alt="Profile" class="rounded-circle user-dropdown-img"> </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav" id="sideNav">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" href="dashboard.html">
+                            <div class="sb-nav-link-icon"><i class="bi bi-speedometer2"></i></div>
+                            Dashboard
+                        </a>
+
+                        <div class="sb-sidenav-menu-heading">Student Management</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseStudents" aria-expanded="false">
+                            <div class="sb-nav-link-icon"><i class="bi bi-people"></i></div>
+                            Student Tracking
+                            <div class="sb-sidenav-collapse-arrow ms-auto"><i class="bi bi-chevron-down"></i></div> </a>
+                        <div class="collapse" id="collapseStudents">
+                            <nav class="sb-sidenav-menu-nested nav"> <a class="nav-link collapse-item" href="#">Attendance</a>
+                                <a class="nav-link collapse-item" href="#">Assessments</a>
+                                <a class="nav-link collapse-item" href="#">Certification</a>
+                                <a class="nav-link collapse-item" href="#">Training</a>
+                                <a class="nav-link collapse-item" href="#">Grades</a>
+                            </nav>
+                        </div>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTeachers" aria-expanded="true">
+                            <div class="sb-nav-link-icon"><i class="bi bi-person-badge"></i></div>
+                            Teacher Tracking
+                            <div class="sb-sidenav-collapse-arrow ms-auto"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse show" id="collapseTeachers"> <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link collapse-item active" href="teachers.html"><i class="bi bi-card-list me-2"></i>Teacher List</a>
+                                <a class="nav-link collapse-item" href="#"><i class="bi bi-calendar-check me-2"></i>Attendance</a>
+                            </nav>
+                        </div>
+
+                        <div class="sb-sidenav-menu-heading">Administration</div>
+                        <a class="nav-link" href="#"><div class="sb-nav-link-icon"><i class="bi bi-gear me-2"></i></div>Settings</a>
+                        <a class="nav-link" href="#"><div class="sb-nav-link-icon"><i class="bi bi-question-circle me-2"></i></div>Help Center</a>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Logged in as:</div>
+                    Admin User
+                </div>
+            </nav>
+        </div>
+
+        <div id="layoutSidenav_content">
+            <main class="dashboard-content">
+                <div class="container-fluid px-4"> 
+                    <h1 class="mt-4">Teacher List</h1> 
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Teacher List</li>
+                    </ol>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6><i class="bi bi-people-fill me-2"></i>All Teachers</h6>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
+                                <i class="bi bi-plus-lg me-1"></i>Add Teacher
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-md-4">
+                                    <label for="searchTeacherInput" class="form-label visually-hidden">Search Teacher Name</label>
+                                    <div class="input-group input-group-sm"> 
+                                        <input type="text" class="form-control" id="searchTeacherInput" placeholder="Search by teacher name...">
+                                        <button class="btn btn-outline-secondary" type="button" id="searchTeacherBtn"><i class="bi bi-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="btn-group float-end" role="group">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm" id="sortTeacherAZ">
+                                            A-Z <i class="bi bi-sort-alpha-down"></i>
+                                        </button>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3" id="teacherCardContainer">
+                                <div class="col-12" id="noTeachersMessage" style="display: none;">
+                                    <p class="text-center text-muted py-5">No teachers found or still loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">&copy; ELE TECH 2025</div>
+                        <div>
+                            <a href="#">Privacy Policy</a> &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addTeacherModal" tabindex="-1" aria-labelledby="addTeacherModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTeacherModalLabel">Add New Teacher</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addTeacherForm">
+                        <div class="mb-3">
+                            <label for="teacherName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="teacherName" placeholder="Enter full name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="teacherPhone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="teacherPhone" placeholder="Enter phone number" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="teacherEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="teacherEmail" placeholder="Enter email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="emergencyContact" class="form-label">Emergency Contact</label>
+                            <input type="text" class="form-control" id="emergencyContact" placeholder="Enter emergency contact number" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" form="addTeacherForm">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editTeacherModal" tabindex="-1" aria-labelledby="editTeacherModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="editTeacherForm">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editTeacherModalLabel">Edit Teacher</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" id="editTeacherId">
+              <div class="mb-3"><label class="form-label">Name</label><input type="text" class="form-control" id="editTeacherName" required></div>
+              <div class="mb-3"><label class="form-label">Phone</label><input type="text" class="form-control" id="editTeacherPhone" required></div>
+              <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" id="editTeacherEmail" required></div>
+              <div class="mb-3"><label class="form-label">Emergency Contact</label><input type="text" class="form-control" id="editTeacherEmergency" required></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button> 
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+       
+        const sidebarToggle = document.body.querySelector('#sidebarToggle');
+        if (sidebarToggle) {
+          
+            if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+                document.body.classList.toggle('sb-sidenav-toggled');
+            }
+            sidebarToggle.addEventListener('click', event => {
+                event.preventDefault();
+                document.body.classList.toggle('sb-sidenav-toggled');
+                localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+            });
+        }
+
+        const teacherCardContainer = document.getElementById('teacherCardContainer');
+        const noTeachersMessage = document.getElementById('noTeachersMessage');
+
+        document.getElementById('addTeacherForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('teacherName').value;
+            const phone = document.getElementById('teacherPhone').value;
+            const email = document.getElementById('teacherEmail').value;
+            const emergency = document.getElementById('emergencyContact').value;
+
+            fetch('add_teacher.php', { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, phone, email, emergency })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.teacher) {
+                    addTeacherCard(data.teacher);
+                    document.getElementById('addTeacherForm').reset();
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('addTeacherModal'));
+                    if(modal) modal.hide();
+                    noTeachersMessage.style.display = 'none'; 
+                } else {
+                    alert('Error saving teacher: ' + (data.message || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Add teacher fetch error:', err);
+                alert('An error occurred while adding the teacher.');
+            });
+        });
+
+        function addTeacherCard(teacher) {
+            console.log("Received teacher data for card:", teacher);
+               
+                console.log("Emergency Contact Value from teacher object:", teacher.emergency_contact, "(Type:", typeof teacher.emergency_contact + ")");
+                console.log("Emergency (alternative) Value from teacher object:", teacher.emergency, "(Type:", typeof teacher.emergency + ")");
+
+
+                const teacherCardContainer = document.getElementById('teacherCardContainer'); 
+                const noTeachersMessage = document.getElementById('noTeachersMessage');     
+
+                const cardCol = document.createElement('div');
+                cardCol.className = 'col-md-6 col-xl-4 teacher-card-column';
+
+                let emergencyDisplay = 'N/A'; 
+                if (teacher.emergency_contact && String(teacher.emergency_contact).trim() !== '') {
+                    emergencyDisplay = teacher.emergency_contact;
+                } else if (teacher.emergency && String(teacher.emergency).trim() !== '') { 
+                    emergencyDisplay = teacher.emergency;
+                }
+
+            cardCol.innerHTML = `
+                <div class="card shadow-sm h-100" data-id="${teacher.id}" data-name="${escapeHtml(teacher.name)}">
+                    <div class="card-body d-flex flex-column"> 
+                        <h5 class="card-title teacher-name">${escapeHtml(teacher.name)}</h5>
+                        <p class="mb-1"><strong>Phone:</strong> ${escapeHtml(teacher.phone || 'N/A')}</p>
+                        <p class="mb-1"><strong>Email:</strong> ${escapeHtml(teacher.email || 'N/A')}</p>
+                        <p class="mb-1"><strong>Emergency Contact:</strong> ${escapeHtml(emergencyDisplay)}</p> 
+                        <div class="d-flex justify-content-end mt-auto"> 
+                            <button class="btn btn-outline-primary btn-sm me-2 edit-teacher-btn"><i class="bi bi-pencil"></i> Edit</button>
+                            <button class="btn btn-outline-danger btn-sm delete-teacher-btn"><i class="bi bi-trash"></i> Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            teacherCardContainer.appendChild(cardCol);
+            if(noTeachersMessage) noTeachersMessage.style.display = 'none';
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            teacherCardContainer.innerHTML = ''; 
+            noTeachersMessage.style.display = 'block'; 
+            fetch('get_teachers.php') 
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success && data.teachers && data.teachers.length > 0) {
+                        data.teachers.forEach(addTeacherCard);
+                        noTeachersMessage.style.display = 'none';
+                    } else if (data.success) {
+                        noTeachersMessage.textContent = 'No teachers found.';
+                        noTeachersMessage.style.display = 'block';
+                    } else {
+                        console.error('Error fetching teachers:', data.message);
+                        noTeachersMessage.textContent = 'Error fetching teachers.';
+                        noTeachersMessage.style.display = 'block';
+                    }
+                })
+                .catch(err => {
+                    console.error('Fetch teachers error:', err);
+                    noTeachersMessage.textContent = 'Could not load teachers.';
+                    noTeachersMessage.style.display = 'block';
+                });
+        });
+
+        teacherCardContainer.addEventListener('click', function (e) {
+            if (e.target.closest('.edit-teacher-btn')) {
+                const card = e.target.closest('.card');
+                const id = card.dataset.id;
+                console.log("Editing. Card data-id:", id, "Type:", typeof id);
+                const name = card.querySelector('h5.teacher-name').textContent;
+                const phone = card.querySelector('p:nth-child(2)').textContent.split(': ')[1];
+                const email = card.querySelector('p:nth-child(3)').textContent.split(': ')[1];
+                const emergency = card.querySelector('p:nth-child(4)').textContent.split(': ')[1];
+
+                document.getElementById('editTeacherId').value = id;
+                document.getElementById('editTeacherName').value = name;
+                document.getElementById('editTeacherPhone').value = phone;
+                document.getElementById('editTeacherEmail').value = email;
+                document.getElementById('editTeacherEmergency').value = emergency;
+
+                new bootstrap.Modal(document.getElementById('editTeacherModal')).show();
+            }
+
+            if (e.target.closest('.delete-teacher-btn')) {
+                const card = e.target.closest('.card');
+                const id = card.dataset.id;
+                const name = card.querySelector('h5.teacher-name').textContent;
+
+
+                if (confirm(`Are you sure you want to delete teacher "${name}"?`)) {
+                    fetch('delete_teacher.php', { 
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            card.closest('.teacher-card-column').remove(); 
+                            if (teacherCardContainer.children.length === 1 && teacherCardContainer.firstChild.id === 'noTeachersMessage') { 
+                               
+                            }
+                             if (teacherCardContainer.querySelectorAll('.teacher-card-column').length === 0) {
+                                noTeachersMessage.textContent = 'No teachers found.';
+                                noTeachersMessage.style.display = 'block';
+                            }
+                        } else {
+                            alert('Delete failed: ' + (data.message || 'Unknown error'));
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Delete teacher fetch error:', err);
+                        alert('An error occurred while deleting the teacher.');
+                    });
+                }
+            }
+        });
+
+        document.getElementById('editTeacherForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const id = document.getElementById('editTeacherId').value;
+            const name = document.getElementById('editTeacherName').value;
+            const phone = document.getElementById('editTeacherPhone').value;
+            const email = document.getElementById('editTeacherEmail').value;
+            const emergency = document.getElementById('editTeacherEmergency').value;
+
+            fetch('edit_teacher.php', { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, name, phone, email, emergency })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.teacher) {
+                    const updatedTeacher = data.teacher;
+                    const card = document.querySelector(`.card[data-id="${updatedTeacher.id}"]`);
+                    if (card) {
+                        card.querySelector('h5.teacher-name').textContent = escapeHtml(updatedTeacher.name);
+                        card.dataset.name = escapeHtml(updatedTeacher.name); 
+                        card.querySelector('p:nth-child(2)').innerHTML = `<strong>Phone:</strong> ${escapeHtml(updatedTeacher.phone)}`;
+                        card.querySelector('p:nth-child(3)').innerHTML = `<strong>Email:</strong> ${escapeHtml(updatedTeacher.email)}`;
+                        card.querySelector('p:nth-child(4)').innerHTML = `<strong>Emergency Contact:</strong> ${escapeHtml(updatedTeacher.emergency_contact)}`;
+                    }
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('editTeacherModal'));
+                    if(modal) modal.hide();
+                } else {
+                    alert('Update failed: ' + (data.message || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Edit teacher fetch error:', err);
+                alert('An error occurred while updating the teacher.');
+            });
+        });
+
+        function applyTeacherFilters() {
+            const searchTerm = document.getElementById('searchTeacherInput').value.toLowerCase();
+            const cards = teacherCardContainer.querySelectorAll('.teacher-card-column');
+            let visibleCount = 0;
+
+            cards.forEach(cardCol => {
+                const teacherName = cardCol.querySelector('.card').dataset.name?.toLowerCase() || '';
+                if (teacherName.includes(searchTerm)) {
+                    cardCol.style.display = '';
+                    visibleCount++;
+                } else {
+                    cardCol.style.display = 'none';
+                }
+            });
+            if (visibleCount === 0 && searchTerm !== "") { 
+                noTeachersMessage.textContent = 'No teachers match your search.';
+                noTeachersMessage.style.display = 'block';
+            } else if (teacherCardContainer.querySelectorAll('.teacher-card-column').length === 0 && searchTerm === "") { 
+                 noTeachersMessage.textContent = 'No teachers found.';
+                 noTeachersMessage.style.display = 'block';
+            }
+            else if (visibleCount > 0 || searchTerm === "") {
+                noTeachersMessage.style.display = 'none';
+            }
+        }
+
+        document.getElementById('searchTeacherInput').addEventListener('keyup', applyTeacherFilters);
+        document.getElementById('searchTeacherBtn').addEventListener('click', applyTeacherFilters);
+
+
+        document.getElementById('sortTeacherAZ').addEventListener('click', function() {
+            const cards = Array.from(teacherCardContainer.querySelectorAll('.teacher-card-column'));
+            cards.sort(function(a, b) {
+                const nameA = a.querySelector('.card').dataset.name?.toUpperCase() || '';
+                const nameB = b.querySelector('.card').dataset.name?.toUpperCase() || '';
+                if (nameA < nameB) return -1;
+                if (nameA > nameB) return 1;
+                return 0;
+            });
+            
+            cards.forEach(card => teacherCardContainer.appendChild(card));
+            applyTeacherFilters(); 
+        });
+        
+        
+        function escapeHtml(unsafe) {
+            if (typeof unsafe !== 'string') {
+                if (unsafe === null || typeof unsafe === 'undefined') return '';
+                unsafe = String(unsafe);
+            }
+            return unsafe
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+
+    </script>
+</body>
+</html>
