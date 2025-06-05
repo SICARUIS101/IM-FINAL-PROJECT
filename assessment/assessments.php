@@ -43,13 +43,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_assessment'])) {
         $assessmentMessage = "<div class='alert alert-warning'>Please fill in all required fields for the assessment.</div>";
     }
 }
+
 $filterParams = [];
+
+if (!empty($_GET['search_term'])) {
+    $filterParams['search_term'] = trim($_GET['search_term']);
+}
+
 if (!empty($_GET['filter_program_id'])) {
     $filterParams['course_id'] = $_GET['filter_program_id'];
 }
 if (!empty($_GET['filter_result'])) {
     $filterParams['assessment_result'] = $_GET['filter_result'];
 }
+if (!empty($_GET['date_from'])) {
+    $filterParams['date_from'] = $_GET['date_from'];
+}
+if (!empty($_GET['date_to'])) {
+    $filterParams['date_to'] = $_GET['date_to'];
+}
+
 $eligibleStudents = $assessmentModel->getEligibleStudentsForAssessment($filterParams);
 ?>
 
