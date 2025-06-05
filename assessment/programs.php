@@ -22,7 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_program'])) {
         $programMessage = "<div class='alert alert-warning'>Program name is required.</div>";
     }
 }
-$allCourses = $courseModel->getAll();
+$searchTerm = trim($_GET['search_program'] ?? ''); 
+$allCourses = $courseModel->getAll($searchTerm); 
 ?>
 
 <!DOCTYPE html>
@@ -118,12 +119,15 @@ $allCourses = $courseModel->getAll();
                             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addProgramModal" onclick="prepareAddProgramForm()"><i class="fas fa-plus me-1"></i> Add New Program</button>
                         </div>
                         <div class="card-body">
-                            <div class="row mb-3">
+                            <<div class="row mb-3">
                                 <div class="col-md-6">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="searchProgramInput" placeholder="Search for program...">
-                                        <button class="btn btn-outline-secondary" type="button" id="searchProgramBtn"><i class="fas fa-search"></i></button>
-                                    </div>
+                                    <form method="GET" action="programs.php" id="programSearchForm">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="searchProgramInput" name="search_program" 
+                                                placeholder="Search for program..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+                                            <button class="btn btn-outline-secondary" type="submit" id="searchProgramBtn"><i class="fas fa-search"></i></button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
 
