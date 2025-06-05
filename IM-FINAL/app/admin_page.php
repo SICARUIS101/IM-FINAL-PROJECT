@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
         }
     }
-    header("Location: admins.php");
+    header("Location: admin_page.php");
     exit();
 }
 
@@ -139,7 +139,7 @@ $admins = $registrar->getAllAdmins($search, $sort);
                         <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher"></i></div>
                         <span class="nav-text">Teachers</span>
                     </a>
-                    <a class="nav-link active" href="admins.php">
+                    <a class="nav-link active" href="admin_page.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div>
                         <span class="nav-text">Admins</span>
                     </a>
@@ -220,7 +220,7 @@ $admins = $registrar->getAllAdmins($search, $sort);
                                                     <tr>
                                                         <td><?php echo htmlspecialchars($admin['username']); ?></td>
                                                         <td>
-                                                            <form action="admins.php" method="POST" style="display:inline;">
+                                                            <form action="admin_page.php" method="POST" style="display:inline;">
                                                                 <input type="hidden" name="action" value="delete">
                                                                 <input type="hidden" name="id" value="<?php echo $admin['registrar_id']; ?>">
                                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this admin?')">
@@ -247,7 +247,7 @@ $admins = $registrar->getAllAdmins($search, $sort);
     <div class="modal fade" id="addAdminModal" tabindex="-1" aria-labelledby="addAdminModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form method="POST" action="admins.php">
+                <form method="POST" action="admin_page.php">
                     <input type="hidden" name="action" value="add">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addAdminModalLabel">Add Admin</h5>
@@ -276,6 +276,6 @@ $admins = $registrar->getAllAdmins($search, $sort);
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="admins.js"></script>
+    <script src="admin_page.js"></script>
 </body>
 </html>
