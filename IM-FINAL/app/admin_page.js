@@ -2,7 +2,7 @@ $(document).ready(function() {
     // Handle search button click
     $('#searchAdminBtn').click(function() {
         var searchValue = $('#searchAdminInput').val();
-        window.location.href = 'admins.php?search=' + encodeURIComponent(searchValue);
+        window.location.href = 'admin_page.php?search=' + encodeURIComponent(searchValue);
     });
 
     // Handle search input enter key
@@ -17,7 +17,7 @@ $(document).ready(function() {
     $('#sortAdminAZ, #sortAdminZA').click(function() {
         var sortValue = $(this).data('sort');
         var searchValue = $('#searchAdminInput').val();
-        window.location.href = 'admins.php?sort=' + sortValue + (searchValue ? '&search=' + encodeURIComponent(searchValue) : '');
+        window.location.href = 'admin_page.php?sort=' + sortValue + (searchValue ? '&search=' + encodeURIComponent(searchValue) : '');
     });
 
     // Show/hide no admins message
