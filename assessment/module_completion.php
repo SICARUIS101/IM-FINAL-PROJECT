@@ -1,13 +1,12 @@
 <?php
+
 require_once 'config.php'; 
-require_once 'Course.php';
+require_once 'Course.php'; 
 
 $courseModel = new Course($pdo);
-$allCourses = $courseModel->getAll();
+$allCourses = $courseModel->getAll(); 
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,14 +29,12 @@ $allCourses = $courseModel->getAll();
                     </a>
                     <div class="sb-sidenav-menu-heading">Student Management</div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                        data-bs-target="#collapseStudentTracking" aria-expanded="false"
-                        aria-controls="collapseStudentTracking">
+                        data-bs-target="#collapseStudentTracking" aria-expanded="true" aria-controls="collapseStudentTracking">
                         <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                         <span class="nav-text">Student Tracking</span>
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapseStudentTracking">
-                        <nav class="sb-sidenav-menu-nested nav">
+                    <div class="collapse show" id="collapseStudentTracking"> <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link collapse-item" href="attendance.html">Attendance</a>
                             <a class="nav-link collapse-item" href="assessments.php">Assessments</a>
                             <a class="nav-link collapse-item" href="certification.html">Certification</a>
@@ -81,17 +78,12 @@ $allCourses = $courseModel->getAll();
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="profile.html">Profile</a></li>
                             <li><a class="dropdown-item" href="settings.html">Settings</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="logout.html">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
             </nav>
-            
-
-        
 
             <main class="dashboard-content">
                 <div class="container-fluid">
@@ -117,7 +109,7 @@ $allCourses = $courseModel->getAll();
                                     <label for="selectModuleForCompletion" class="form-label">2. Choose Module:</label>
                                     <select class="form-select" id="selectModuleForCompletion" disabled>
                                         <option selected disabled value="">-- Select a Program First --</option>
-                                        </select>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -126,14 +118,19 @@ $allCourses = $courseModel->getAll();
                     <div id="studentModuleProgressSection" class="card mb-4" style="display: none;">
                         <div class="card-header"><h6><i class="fas fa-users me-2"></i>Student Progress for: <span id="selectedModuleDisplay">Module Name</span></h6></div>
                         <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="col-md-4"><input type="text" class="form-control" id="searchStudentProgressInput" placeholder="Search student name..."></div>
-                                <div class="col-md-8"><div class="btn-group float-end" role="group">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm filter-btn-progress" data-filter="all">All</button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm filter-btn-progress" data-filter="a-z">A-Z <i class="fas fa-sort-alpha-down"></i></button>
-                                    <button type="button" class="btn btn-outline-success btn-sm filter-btn-progress" data-filter="completed">Completed</button>
-                                    <button type="button" class="btn btn-outline-warning btn-sm filter-btn-progress" data-filter="not-completed">Not Yet Completed</button>
-                                </div></div>
+                            <div class="row mb-3 align-items-center"> 
+                                <div class="col-md-4">
+                                    <label for="searchStudentProgressInput" class="form-label visually-hidden">Search Student Name</label> 
+                                    <input type="text" class="form-control form-control-sm" id="searchStudentProgressInput" placeholder="Search student name...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="btn-group float-end" role="group" aria-label="Filter student progress"> 
+                                        <button type="button" class="btn btn-outline-secondary btn-sm filter-btn-progress active" data-filter="all">All</button> 
+                                        <button type="button" class="btn btn-outline-secondary btn-sm filter-btn-progress" data-filter="a-z">A-Z <i class="fas fa-sort-alpha-down"></i></button>
+                                        <button type="button" class="btn btn-outline-success btn-sm filter-btn-progress" data-filter="completed">Completed</button>
+                                        <button type="button" class="btn btn-outline-warning btn-sm filter-btn-progress" data-filter="not-completed">Not Yet Completed</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-hover">
@@ -148,15 +145,37 @@ $allCourses = $courseModel->getAll();
                 </div>
             </main>
 
-            <?php ?>
-            <footer class="py-4 bg-light mt-auto"> </footer>
+            <footer class="py-4 bg-light mt-auto"></footer>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <?php  ?>
     <script>
+       
+        const sidebarToggle = document.body.querySelector('#sidebarToggle');
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', event => {
+                event.preventDefault();
+                document.body.classList.toggle('sb-sidenav-toggled');
+                localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+            });
+        }
+
+        function escapeHtml(unsafe) {
+            if (typeof unsafe !== 'string') {
+                if (unsafe === null || typeof unsafe === 'undefined') return '';
+                unsafe = String(unsafe);
+            }
+            return unsafe
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+
+
         $(document).ready(function() {
             $('#selectProgramForCompletion').on('change', function() {
                 const programId = $(this).val();
@@ -164,7 +183,6 @@ $allCourses = $courseModel->getAll();
                 moduleSelect.html('<option selected disabled value="">-- Loading Modules --</option>').prop('disabled', true);
                 $('#studentModuleProgressSection').hide();
                 $('#studentProgressTableBody').html('<tr><td colspan="4" class="text-center">Select a module to view student progress.</td></tr>');
-
 
                 if (programId) {
                     $.ajax({
@@ -176,7 +194,7 @@ $allCourses = $courseModel->getAll();
                             moduleSelect.html('<option selected disabled value="">-- Select a Module --</option>');
                             if (response.success && response.modules.length > 0) {
                                 response.modules.forEach(function(module) {
-                                    moduleSelect.append($('<option></option>').attr('value', module.module_id).text(module.module_name));
+                                    moduleSelect.append($('<option></option>').attr('value', module.module_id).text(escapeHtml(module.module_name)));
                                 });
                                 moduleSelect.prop('disabled', false);
                             } else if(response.success) {
@@ -200,7 +218,7 @@ $allCourses = $courseModel->getAll();
                 const moduleName = $(this).find('option:selected').text();
                 
                 if (moduleId && programId) {
-                    $('#selectedModuleDisplay').text(moduleName);
+                    $('#selectedModuleDisplay').text(escapeHtml(moduleName));
                     $('#studentModuleProgressSection').show();
                     loadStudentProgress(programId, moduleId);
                 } else {
@@ -221,29 +239,40 @@ $allCourses = $courseModel->getAll();
                         tbody.empty();
                         if (response.success && response.students.length > 0) {
                             response.students.forEach(function(student) {
-                                let statusBadge = student.is_completed ? '<span class="badge bg-success">Completed</span>' : '<span class="badge bg-warning">Not Yet Completed</span>';
+                                let studentFullName = escapeHtml(student.first_name + ' ' + student.last_name);
+                                let courseName = escapeHtml(student.course_name);
+                               
+                                let statusText = student.is_completed ? 'completed' : 'not yet completed'; 
+                                let statusBadgeHTML = student.is_completed ? 
+                                    `<span class="badge bg-success" data-status-text="${statusText}">Completed</span>` : 
+                                    `<span class="badge bg-warning" data-status-text="${statusText}">Not Yet Completed</span>`;
+                                
                                 let buttonClass = student.is_completed ? 'btn-danger' : 'btn-success';
                                 let buttonIcon = student.is_completed ? 'fa-times' : 'fa-check';
                                 let buttonText = student.is_completed ? ' Undo Completion' : ' Mark Complete';
                                 let button = `<button class="btn ${buttonClass} btn-sm toggle-complete-btn" data-student-id="${student.student_id}" data-module-id="${moduleId}" data-completed="${student.is_completed}">
                                                 <i class="fas ${buttonIcon} me-1"></i> ${buttonText}
                                               </button>`;
-                                tbody.append(`<tr>
-                                                <td>${(student.first_name + ' ' + student.last_name)}</td>
-                                                <td>${(student.course_name)}</td>
-                                                <td>${statusBadge}</td>
+                                tbody.append(`<tr class="student-row">
+                                                <td class="student-name">${studentFullName}</td>
+                                                <td>${courseName}</td>
+                                                <td class="completion-status">${statusBadgeHTML}</td>
                                                 <td>${button}</td>
                                              </tr>`);
                             });
                         } else if (response.success) {
                             tbody.html('<tr><td colspan="4" class="text-center">No students found for this program/module.</td></tr>');
                         } else {
-                            tbody.html('<tr><td colspan="4" class="text-center">Error loading student progress.</td></tr>');
-                            console.error("Error fetching student progress:", response.message);
+                            tbody.html('<tr><td colspan="4" class="text-center">Error loading student progress: ${escapeHtml(response.message)}</td></tr>');
                         }
+                        $('.filter-btn-progress').removeClass('active');
+                        $('.filter-btn-progress[data-filter="all"]').addClass('active');
+                        $('#searchStudentProgressInput').val('');
+                        applyStudentTableFilters('all', ''); 
                     },
-                    error: function() {
+                    error: function(jqXHR, textStatus, errorThrown) {
                         tbody.html('<tr><td colspan="4" class="text-center">Failed to load student progress.</td></tr>');
+                        console.error("AJAX error fetching student progress: ", textStatus, errorThrown, jqXHR.responseText);
                     }
                 });
             }
@@ -269,23 +298,96 @@ $allCourses = $courseModel->getAll();
                         if(response.success) {
                             button.data('completed', newCompletedStatus);
                             const row = button.closest('tr');
+                            const statusCell = row.find('td.completion-status');
+                            let newStatusText = newCompletedStatus ? 'completed' : 'not yet completed';
+                            let newBadgeHTML = newCompletedStatus ? 
+                                `<span class="badge bg-success" data-status-text="${newStatusText}">Completed</span>` : 
+                                `<span class="badge bg-warning" data-status-text="${newStatusText}">Not Yet Completed</span>`;
+
+                            statusCell.html(newBadgeHTML);
                             if (newCompletedStatus) {
-                                row.find('td:nth-child(3)').html('<span class="badge bg-success">Completed</span>');
                                 button.removeClass('btn-success').addClass('btn-danger').html('<i class="fas fa-times me-1"></i> Undo Completion');
                             } else {
-                                row.find('td:nth-child(3)').html('<span class="badge bg-warning">Not Yet Completed</span>');
                                 button.removeClass('btn-danger').addClass('btn-success').html('<i class="fas fa-check me-1"></i> Mark Complete');
                             }
+                            var activeFilter = $('.filter-btn-progress.active').data('filter');
+                            applyStudentTableFilters(activeFilter, $('#searchStudentProgressInput').val().toLowerCase());
                         } else {
                            alert('Failed to update status: ' + (response.message || 'Unknown error'));
                         }
                     },
-                    error: function() {
+                    error: function(jqXHR, textStatus, errorThrown) {
                        alert('Error connecting to server to update status.');
+                       console.error("AJAX error updating status: ", textStatus, errorThrown, jqXHR.responseText);
                     }
                 });
             });
-             function escapeHtml(unsafe) { }
+
+            function applyStudentTableFilters(filterType, searchTerm) {
+                console.log(`Applying filters: type='${filterType}', term='${searchTerm}'`); 
+                $('#studentProgressTableBody tr.student-row').each(function(index) {
+                    const row = $(this);
+                    const studentName = row.find('td.student-name').text().toLowerCase();
+                    const badgeElement = row.find('td.completion-status .badge');
+                    const completionStatusText = badgeElement.attr('data-status-text'); 
+
+                    let showRow = true;
+
+                    if (searchTerm && studentName.indexOf(searchTerm) === -1) {
+                        showRow = false;
+                    }
+
+                    if (showRow) {
+                        if (filterType === 'completed') {
+                            if (completionStatusText !== 'completed') {
+                                showRow = false;
+                            }
+                        } else if (filterType === 'not-completed') {
+                            if (completionStatusText !== 'not yet completed') {
+                                showRow = false;
+                            }
+                        }
+                       
+                    }
+                    
+                    row.toggle(showRow);
+                });
+            }
+            
+            $('#searchStudentProgressInput').on('keyup', function() {
+                const searchTerm = $(this).val().toLowerCase();
+                const activeFilter = $('.filter-btn-progress.active').data('filter');
+                applyStudentTableFilters(activeFilter, searchTerm);
+            });
+
+            $('.filter-btn-progress').on('click', function() {
+                const button = $(this);
+                const filterType = button.data('filter');
+                
+                $('.filter-btn-progress').removeClass('active');
+                button.addClass('active');
+                
+                const searchTerm = $('#searchStudentProgressInput').val().toLowerCase();
+
+                if (filterType === 'a-z') {
+                   
+                    applyStudentTableFilters('all', searchTerm); 
+                    
+                    var rowsToSort = $('#studentProgressTableBody tr.student-row:visible').get(); 
+                    rowsToSort.sort(function(a, b) {
+                        var keyA = $(a).find('td.student-name').text().toUpperCase();
+                        var keyB = $(b).find('td.student-name').text().toUpperCase();
+                        if (keyA < keyB) return -1;
+                        if (keyA > keyB) return 1;
+                        return 0;
+                    });
+                    $.each(rowsToSort, function(index, row) {
+                        $('#studentProgressTableBody').append(row); 
+                    });
+                } else {
+                    applyStudentTableFilters(filterType, searchTerm);
+                }
+            });
         });
     </script>
 </body>
