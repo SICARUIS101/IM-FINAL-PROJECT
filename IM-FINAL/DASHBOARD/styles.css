@@ -1,0 +1,239 @@
+/* ELE TECH Dashboard Styles */
+
+:root {
+    --sidebar-bg: #1e7e34;
+    --sidebar-hover: #166329;
+    --sidebar-active: #155724;
+    --sidebar-text: #ffffff;
+    --header-height: 56px;
+}
+
+body {
+    overflow-x: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Sidebar Styles */
+.sb-sidenav {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 225px;
+    z-index: 1038;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+}
+
+.sb-sidenav.toggled {
+    width: 70px;
+}
+
+.sb-sidenav.toggled .nav-text,
+.sb-sidenav.toggled .sb-sidenav-menu-heading,
+.sb-sidenav.toggled .sb-sidenav-footer span,
+.sb-sidenav.toggled .sb-nav-link-icon+span {
+    display: none;
+}
+
+.sb-sidenav-menu {
+    overflow-y: auto;
+    padding-top: 10px;
+    flex-grow: 1;
+}
+
+.sb-sidenav-menu-heading {
+    padding: 1.25rem 1rem 0.75rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.sb-sidenav-footer {
+    padding: 0.75rem;
+    background-color: var(--sidebar-active);
+}
+
+.sb-nav-link-icon {
+    width: 24px;
+    text-align: center;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.sb-sidenav .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    position: relative;
+}
+
+.sb-sidenav .nav-link:hover {
+    color: #fff;
+    background-color: var(--sidebar-hover);
+}
+
+.sb-sidenav .nav-link.active {
+    color: #fff;
+    background-color: var(--sidebar-active);
+    font-weight: 500;
+}
+
+.sb-sidenav .collapse-inner {
+    padding: 0.5rem 0;
+    min-width: 10rem;
+    font-size: 0.85rem;
+    margin: 0 0 0 1.35rem;
+    list-style: none;
+}
+
+.sb-sidenav .collapse-inner .collapse-item {
+    padding: 0.5rem 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    display: block;
+    text-decoration: none;
+    border-radius: 0.25rem;
+}
+
+.sb-sidenav .collapse-inner .collapse-item:hover {
+    background-color: var(--sidebar-hover);
+    color: #fff;
+}
+
+.collapse-item.active {
+    background-color: var(--sidebar-active);
+    color: #fff;
+}
+
+/* Layout and Header Styles */
+#layoutSidenav {
+    display: flex;
+}
+
+#layoutSidenav_content {
+    position: relative;
+    margin-left: 225px;
+    transition: margin 0.2s ease-in-out;
+    min-width: 0;
+    flex-grow: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sb-topnav {
+    height: var(--header-height);
+    z-index: 1039;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(0, 0, 0, 0.15);
+}
+
+.sb-topnav .navbar-brand {
+    width: 225px;
+    margin: 0;
+    padding-left: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.menu-toggle {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 1.2rem;
+}
+
+/* When sidebar is toggled */
+body.sb-sidenav-toggled #layoutSidenav_content {
+    margin-left: 70px;
+}
+
+/* Dashboard Content Styles */
+.dashboard-content {
+    background-color: #f8f9fa;
+    flex-grow: 1;
+    padding: 1.5rem;
+}
+
+.card {
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.card-header {
+    padding: 1rem 1.35rem;
+    margin-bottom: 0;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-header h6 {
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.35rem;
+}
+
+/* Stats card */
+.stats-card {
+    border-left: 4px solid;
+    border-radius: 0.25rem;
+}
+
+.stats-card-primary {
+    border-left-color: #0d6efd;
+}
+
+.stats-card-success {
+    border-left-color: #198754;
+}
+
+.stats-card-warning {
+    border-left-color: #ffc107;
+}
+
+.stats-card-danger {
+    border-left-color: #dc3545;
+}
+
+.stats-card .stats-icon {
+    opacity: 0.4;
+    font-size: 2rem;
+}
+
+/* User profile dropdown */
+.user-dropdown img {
+    height: 32px;
+    width: 32px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sb-sidenav {
+        transform: translateX(-100%);
+    }
+
+    #layoutSidenav_content {
+        margin-left: 0;
+    }
+
+    body.sb-sidenav-toggled .sb-sidenav {
+        transform: translateX(0);
+    }
+
+    body.sb-sidenav-toggled #layoutSidenav_content {
+        margin-left: 0;
+    }
+
+    .sb-topnav .navbar-brand {
+        width: auto;
+    }
+}
