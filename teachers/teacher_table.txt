@@ -1,0 +1,7 @@
+CREATE TABLE teacher (
+    id SERIAL PRIMARY KEY,
+    name CHARACTER VARYING(100),
+    phone CHARACTER VARYING(15),
+    email CHARACTER VARYING(100),
+    emergency_contact CHARACTER VARYING(100)
+);
