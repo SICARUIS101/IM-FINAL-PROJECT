@@ -46,11 +46,10 @@ class Registrar {
     }
     
     public function addAdmin($username, $password) {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $query = "INSERT INTO registrar (username, password) VALUES (:username, :password)";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':password', $password);
         return $stmt->execute();
     }
     
