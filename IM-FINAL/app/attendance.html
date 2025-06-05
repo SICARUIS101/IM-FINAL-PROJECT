@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELE TECH - Attendance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="attendance.css">
+</head>
+
+<body>
+    <div id="layoutSidenav">
+        <div id="sideNav" class="sb-sidenav">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Dashboard</div>
+                    <a class="nav-link" href="dashboard.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                    <div class="sb-sidenav-menu-heading">Student Management</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseStudentTracking" aria-expanded="false"
+                        aria-controls="collapseStudentTracking">
+                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        <span class="nav-text">Student Tracking</span>
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseStudentTracking">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link collapse-item active" href="attendance.html">Student Records</a>
+                            <a class="nav-link collapse-item" href="assessments.php">Assessments</a>
+                            <a class="nav-link collapse-item" href="certification.php">Certification</a>
+                            <a class="nav-link collapse-item" href="module_completion.php">Module Progress</a>
+                        </nav>
+                    </div>
+                    <div class="sb-sidenav-menu-heading">Administration</div>
+                     <a class="nav-link" href="programs.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <span class="nav-text">Programs</span>
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">Logged in as:</div>
+                <span>Admin User</span>
+            </div>
+        </div>
+        <div id="layoutSidenav_content">
+            <nav class="sb-topnav navbar navbar-expand navbar-light bg-light">
+                <a class="navbar-brand ps-3" href="dashboard.html">ELE TECH</a>
+                <button class="btn menu-toggle ms-3" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                <ul class="navbar-nav ms-auto">
+                    <li>
+                        <form action="logout.php" method="POST">
+                        <input type="hidden" name="action" value="logout">
+                        <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right me-2"></i>Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+            <main class="dashboard-content">
+                <div class="container-fluid">
+                    <h1 class="mt-4">Attendance</h1>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6>Attendance Management</h6>
+                                    <div>
+                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#addAttendanceModal">Add Record</button>
+                                        <button class="btn btn-success btn-sm ms-2" data-bs-toggle="modal"
+                                            data-bs-target="#addStudentModal">Add Student</button>
+                                        <button class="btn btn-danger btn-sm ms-2" id="deleteStudentBtn"
+                                            data-bs-toggle="modal" data-bs-target="#deleteStudentModal">Delete
+                                            Student</button>
+                                        <button class="btn btn-info btn-sm ms-2" id="viewStudentsBtn"
+                                            data-bs-toggle="modal" data-bs-target="#viewStudentsModal">View
+                                            Students</button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="courseFilter" class="form-label">Filter by Programs</label>
+                                        <select class="form-select w-25" id="courseFilter">
+                                            <!-- Options will be populated by JavaScript -->
+                                        </select>
+                                    </div>
+                                    <div class="table-responsive mb-4">
+                                        <h6>Attendance by Day</h6>
+                                        <table class="table table-hover table-bordered" id="attendanceByDayTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Student Name</th>
+                                                    <!-- Dates will be dynamically populated -->
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <h6>Attendance Records</h6>
+                                        <table class="table table-hover" id="attendanceTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Student Name</th>
+                                                    <th>Program</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                    <th>Notes</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright © ELE TECH 2025</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            ·
+                            <a href="#">Terms & Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Add Attendance Modal -->
+    <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAttendanceModalLabel">Add/Edit Attendance Record</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAttendanceForm">
+                        <div class="mb-3">
+                            <label for="studentIdSearch" class="form-label">Search by Student ID</label>
+                            <input type="text" class="form-control" id="studentIdSearch"
+                                placeholder="Type Student ID to filter">
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentSelect" class="form-label">Select Student</label>
+                            <select class="form-select" id="studentSelect" required>
+                                <option value="">Select a student</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="attendanceDate" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="attendanceDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="attendanceStatus" class="form-label">Status</label>
+                            <select class="form-select" id="attendanceStatus" required>
+                                <option value="Present">Present</option>
+                                <option value="Absent">Absent</option>
+                                <option value="Late">Late</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="attendanceNotes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="attendanceNotes" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveAttendance">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addStudentModalLabel">Add New Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addStudentForm">
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="birthdate" class="form-label">Birthdate</label>
+                            <input type="date" class="form-control" id="birthdate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contactNumber" class="form-label">Contact Number</label>
+                            <input type="tel" class="form-control" id="contactNumber" pattern="[0-9]{10,12}"
+                                placeholder="Enter 10-12 digit phone number">
+                        </div>
+                        <div class="mb-3">
+                            <label for="course" class="form-label">Course</label>
+                            <select class="form-select" id="course" required>
+                                <option value="1">Computer System Servicing NC II</option>
+                                <option value="2">Dressmaking NC II</option>
+                                <option value="3">Electronic Products Assembly Servicing NC II</option>
+                                <option value="4">Shielded Metal Arc Welding (SMAW) NC I</option>
+                                <option value="5">Shielded Metal Arc Welding (SMAW) NC II</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveStudent">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Student Modal -->
+    <div class="modal fade" id="deleteStudentModal" tabindex="-1" aria-labelledby="deleteStudentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteStudentModalLabel">Remove Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="deleteStudentForm">
+                        <div class="mb-3">
+                            <label for="studentSelectDelete" class="form-label">Select Student</label>
+                            <select class="form-select" id="studentSelectDelete" required>
+                                <option value="">Select Student</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteStudent">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Students Modal -->
+    <div class="modal fade" id="viewStudentsModal" tabindex="-1" aria-labelledby="viewStudentsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewStudentsModalLabel">View Students</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="studentsContainer">
+                        <!-- Student tables will be populated here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="attendance.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - ELE Center</title>
+    <link rel="stylesheet" href="home.css" />
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="logo.jpg" type="image/jpeg" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="ELE-LOGO.png" alt="ELE Technical Training Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html" class="active">Contact Us</a></li>
+                <li><a href="admin.php">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-background"></div>
+
+    <main>
+        <div class="contact-container">
+            <!-- Left: Map -->
+            <div class="map-section">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.471514476341!2d123.95141317408145!3d10.304098067730232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a999956d907691%3A0x247b5097e0ac46a8!2sELE%20Technical%20Training%20Center%20and%20Recruitment!5e0!3m2!1sen!2sph!4v1745291815728!5m2!1sen!2sph"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+            <!-- Right: Form -->
+            <div class="form-section">
+                <form action="#" method="post">
+                    <h2 class="sub-heading">Send Us a Message</h2>
+                    <input type="text" class="input" name="name" placeholder="Full Name" required />
+                    <input type="email" class="input" name="email" placeholder="Email Address" required />
+                    <input type="text" class="input" name="phone" placeholder="Contact Number" />
+                    <textarea class="input" name="message" cols="30" rows="5" placeholder="Your Message"
+                        required></textarea>
+                    <input type="submit" class="input submit" value="Submit Message" />
+                </form>
+            </div>
+        </div>
+
+        <div class="contact-info-container">
+            <div class="contact-info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <h3>Office Address</h3>
+                    <p>S. Osmeña Street, Gun-Ob, Lapu-Lapu City, Cebu 6015, Philippines</p>
+                </div>
+            </div>
+
+            <div class="contact-info-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                    <h3>Email Address</h3>
+                    <p>eletechnical123@gmail.com</p>
+                </div>
+            </div>
+
+            <div class="contact-info-item">
+                <i class="fas fa-phone"></i>
+                <div>
+                    <h3>Telephone Number</h3>
+                    <p>(032) 495 9778 & +63933-375-2494</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Media -->
+        <div class="social-media-section">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="https://web.facebook.com/EleTechnicalTrainingCenter" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/eletechnicaltraining/">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <!-- Copyright Section -->
+            <div class="copyright">
+                <p>&copy; 2025 ELE Technical Training and Assessment Center. All rights reserved.</p>
+            </div>
+
+            <!-- Contact and Social Media Section -->
+            <div class="footer-social">
+                <h4>Connect With Us</h4>
+
+                <!-- Social Media Icons -->
+                <div class="footer-social-icons">
+                    <!-- Facebook Icon -->
+                    <a href="https://web.facebook.com/EleTechnicalTrainingCenter">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                            fill="#1877F2">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+
+                    <!-- Instagram Icon -->
+                    <a href="https://www.instagram.com/eletechnicaltraining/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                            <defs>
+                                <radialGradient id="instagram-gradient" cx="30%" cy="107%" r="150%">
+                                    <stop offset="0%" stop-color="#fdf497" />
+                                    <stop offset="5%" stop-color="#fdf497" />
+                                    <stop offset="45%" stop-color="#fd5949" />
+                                    <stop offset="60%" stop-color="#d6249f" />
+                                    <stop offset="90%" stop-color="#285AEB" />
+                                </radialGradient>
+                            </defs>
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="url(#instagram-gradient)" />
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="white" />
+                            <circle cx="17.5" cy="6.5" r="1" fill="white" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

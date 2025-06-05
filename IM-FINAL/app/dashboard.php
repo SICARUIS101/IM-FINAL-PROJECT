@@ -1,0 +1,332 @@
+<?php
+session_start();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELE TECH - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="layoutSidenav">
+        <div id="sideNav" class="sb-sidenav">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Dashboard</div>
+                    <a class="nav-link active" href="dashboard.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                    <div class="sb-sidenav-menu-heading">Student Management</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseStudentTracking" aria-expanded="false"
+                        aria-controls="collapseStudentTracking">
+                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        <span class="nav-text">Student Tracking</span>
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseStudentTracking">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link collapse-item" href="attendance.html">Student Records</a>
+                            <a class="nav-link collapse-item" href="assessments.php">Assessments</a>
+                            <a class="nav-link collapse-item" href="certification.php">Certification</a>
+                            <a class="nav-link collapse-item" href="module_completion.php">Module Progress</a>
+                        </nav>
+                    </div>
+                    <div class="sb-sidenav-menu-heading">Administration</div>
+                    <a class="nav-link" href="programs.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <span class="nav-text">Programs</span>
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">Logged in as:</div>
+                <span>Admin User</span>
+            </div>
+        </div>
+        <div id="layoutSidenav_content">
+            <nav class="sb-topnav navbar navbar-expand navbar-light bg-light">
+                <a class="navbar-brand ps-3" href="dashboard.php">ELE TECH</a>
+                <button class="btn menu-toggle ms-3" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                <ul class="navbar-nav ms-auto">
+                    <li>
+                        <form action="logout.php" method="POST">
+                        <input type="hidden" name="action" value="logout">
+                        <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right me-2"></i>Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+            <main class="dashboard-content">
+                <div class="container-fluid">
+                    <h1 class="mt-4">Dashboard</h1>
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card stats-card-primary mb-4">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold">Total Students</div>
+                                            <h4 class="mt-2 mb-0">320</h4>
+                                        </div>
+                                        <div class="stats-icon text-primary"><i class="fas fa-users"></i></div>
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-primary stretched-link" href="#">View Details</a>
+                                    <div class="small text-primary"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card stats-card-success mb-4">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold">Teachers</div>
+                                            <h4 class="mt-2 mb-0">26</h4>
+                                        </div>
+                                        <div class="stats-icon text-success"><i class="fas fa-chalkboard-teacher"></i></div>
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-success stretched-link" href="#">View Details</a>
+                                    <div class="small text-success"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card stats-card-warning mb-4">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold">Active Courses</div>
+                                            <h4 class="mt-2 mb-0">12</h4>
+                                        </div>
+                                        <div class="stats-icon text-warning"><i class="fas fa-book"></i></div>
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-warning stretched-link" href="#">View Details</a>
+                                    <div class="small text-warning"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card stats-card-danger mb-4">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold">Certifications</div>
+                                            <h4 class="mt-2 mb-0">96</h4>
+                                        </div>
+                                        <div class="stats-icon text-danger"><i class="fas fa-certificate"></i></div>
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-danger stretched-link" href="#">View Details</a>
+                                    <div class="small text-danger"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6>Recent Activities</h6>
+                                    <div>
+                                        <a class="btn btn-primary btn-sm" href="#">View All</a>
+                                        <a class="btn btn-secondary btn-sm" href="#">Export Data</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>Certification Issued</strong><br>
+                                                Electronics Servicing NC II - 4 students
+                                            </div>
+                                            <span class="small text-muted">1h ago</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>Assessment Completed</strong><br>
+                                                Electronics Servicing NC II
+                                            </div>
+                                            <span class="small text-muted">2h ago</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>New Student Registration</strong><br>
+                                                5 new students registered
+                                            </div>
+                                            <span class="small text-muted">5h ago</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>Training Session Started</strong><br>
+                                                Computer Hardware Servicing
+                                            </div>
+                                            <span class="small text-muted">1d ago</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6>Student Certification Status</h6>
+                                    <div>
+                                        <a class="btn btn-primary btn-sm" href="#">View Details</a>
+                                        <a class="btn btn-secondary btn-sm" href="#">Export Report</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>Electronics Servicing NC II</div>
+                                            <div class="fw-bold">78%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 78%;" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>Computer Hardware Servicing NC II</div>
+                                            <div class="fw-bold">65%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>Electrical Installation NC II</div>
+                                            <div class="fw-bold">52%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 52%;" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>Mechatronics Servicing NC II</div>
+                                            <div class="fw-bold">41%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 41%;" aria-valuenow="41" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6>Upcoming Assessments, Certifications & Training</h6>
+                                    <div>
+                                        <a class="btn btn-primary btn-sm" href="#">Add New</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Course</th>
+                                                    <th>Scheduled Date</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Practical Assessment</td>
+                                                    <td>Electronics Servicing NC II</td>
+                                                    <td>May 15, 2025</td>
+                                                    <td><span class="badge bg-warning">Pending</span></td>
+                                                    <td>
+                                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Written Exam</td>
+                                                    <td>Computer Hardware Servicing NC II</td>
+                                                    <td>May 18, 2025</td>
+                                                    <td><span class="badge bg-warning">Pending</span></td>
+                                                    <td>
+                                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Certification Ceremony</td>
+                                                    <td>Electronics Servicing NC II</td>
+                                                    <td>May 22, 2025</td>
+                                                    <td><span class="badge bg-success">Scheduled</span></td>
+                                                    <td>
+                                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Training Workshop</td>
+                                                    <td>Electrical Installation NC II</td>
+                                                    <td>May 20, 2025</td>
+                                                    <td><span class="badge bg-success">Confirmed</span></td>
+                                                    <td>
+                                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Certification Exam</td>
+                                                    <td>Mechatronics Servicing NC II</td>
+                                                    <td>May 25, 2025</td>
+                                                    <td><span class="badge bg-info">Ready</span></td>
+                                                    <td>
+                                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright © ELE TECH 2025</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            ·
+                            <a href="#">Terms & Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
