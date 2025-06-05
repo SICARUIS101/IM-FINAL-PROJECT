@@ -29,11 +29,28 @@ class Course {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getAll() {
-        $sql = "SELECT * FROM " . $this->table . " ORDER BY course_name ASC";
-        $stmt = $this->db->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function getAll($searchTerm = null) { 
+        $sql = "SELECT * FROM " . $this->table;
+        $params = [];
+
+        if ($searchTerm !== null && $searchTerm !== '') {
+           
+            $sql .= " WHERE course_name ILIKE :searchTerm OR course_description ILIKE :searchTerm";
+            $params[':searchTerm'] = '%' . $searchTerm . '%';
+        }
+        
+        $sql .= " ORDER BY course_name ASC";
+        
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error fetching courses: " . $e->getMessage());
+            return false;
+        }
     }
+
     public function update($course_id, $course_name, $course_description = null) { 
         $sql = "UPDATE " . $this->table . " 
                 SET course_name = :course_name, course_description = :course_description 
